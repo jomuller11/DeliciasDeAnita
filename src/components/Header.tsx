@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { brand } from "@/lib/tokens";
 
-/* ─── Header ─────────────────────────────────────────────── */
 export function Header() {
   return (
     <header
@@ -13,26 +12,19 @@ export function Header() {
       ].join(" ")}
     >
       <div className="max-w-[1200px] mx-auto px-6 lg:px-10 h-[72px] flex items-center justify-between gap-6">
-        {/* Logo lockup */}
         <Link
           href="/"
-          aria-label={`${brand.name} · Inicio`}
-          className="flex items-center gap-3 group"
+          aria-label={`${brand.name} - Inicio`}
+          className="flex items-center group"
         >
           <Image
-            src="/logos/isologo-contorno.png"
-            alt=""
-            width={285}
-            height={288}
+            src="/logos/logo_top.svg"
+            alt={brand.name}
+            width={327}
+            height={112}
             priority
-            className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+            className="h-10 sm:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
           />
-          <span className="hidden sm:flex flex-col leading-tight">
-            <span className="eyebrow !text-[10px]">Pastelería Artesanal</span>
-            <span className="font-display text-[18px] text-azul-dk -mt-0.5">
-              Delicias <em className="font-accent text-verde">de</em> Anita
-            </span>
-          </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-7 font-body text-[13px] text-azul-dk/75">

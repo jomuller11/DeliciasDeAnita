@@ -2,31 +2,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { brand } from "@/lib/tokens";
 
-/* ─── Footer ─────────────────────────────────────────────── */
 export function Footer() {
   return (
     <footer className="bg-azul-dk text-white/70 mt-24">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 py-16">
-        <div className="grid gap-12 md:grid-cols-3">
-          {/* Brand */}
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 py-14">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div className="flex flex-col items-start">
             <Image
-              src="/logos/logo-full.png"
-              alt={`${brand.name} isologo`}
-              width={192}
-              height={194}
-              className="w-16 h-auto mb-5 brightness-[10] opacity-90"
+              src="/logos/logo_bottom.svg"
+              alt={brand.name}
+              width={327}
+              height={112}
+              className="w-[210px] h-auto mb-4"
             />
-            <div className="eyebrow !text-verde mb-2">Pastelería Artesanal</div>
-            <h3 className="font-display text-[24px] text-white leading-tight">
-              {brand.name}
-            </h3>
-            <p className="font-accent italic text-[15px] text-white/70 mt-3 max-w-[280px]">
+            <div className="eyebrow !text-verde mb-2">Pastelería artesanal</div>
+            <p className="font-accent italic text-[16px] text-white/75 max-w-[320px]">
               {brand.slogan}
             </p>
           </div>
 
-          {/* Contact */}
           <div>
             <div className="label-tag text-white/60 mb-3">Contacto</div>
             <ul className="space-y-2 font-body text-[13px]">
@@ -53,13 +47,27 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Sitio */}
           <div>
             <div className="label-tag text-white/60 mb-3">Navegación</div>
             <ul className="space-y-2 font-body text-[13px]">
-              <li><Link href="/" className="hover:text-verde transition-colors">Inicio</Link></li>
-              <li><Link href="/catalogo" className="hover:text-verde transition-colors">Catálogo</Link></li>
-              <li><Link href="#" className="hover:text-verde transition-colors">Eventos</Link></li>
+              <li>
+                <Link href="/" className="hover:text-verde transition-colors">
+                  Inicio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/catalogo"
+                  className="hover:text-verde transition-colors"
+                >
+                  Catálogo
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-verde transition-colors">
+                  Eventos
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

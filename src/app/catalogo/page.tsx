@@ -1,58 +1,61 @@
 import Image from "next/image";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SectionTitle } from "@/components/SectionTitle";
 import { CatalogGrid } from "@/components/CatalogGrid";
 
-/* ─── /catalogo ──────────────────────────────────────────── */
 export default function CatalogoPage() {
   return (
     <>
       <Header />
 
       <main className="bg-marfil min-h-screen">
-        {/* Hero band — crema background, with decorative seal */}
-        <section className="bg-crema/60 border-b border-azul-dk/10 overflow-hidden">
+        <section className="relative border-b border-azul-dk/10 overflow-hidden">
+          <Image
+            src="/products/121212.jpeg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[50%_44%]"
+          />
+          <div className="absolute inset-0 bg-azul-dk/70" />
           <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10 py-16 lg:py-20">
-            <div className="grid md:grid-cols-[1fr_auto] gap-8 items-center">
-              <SectionTitle
-                eyebrow="Catálogo · Hecho con amor"
-                title="Nuestras Delicias"
-                lede="Cada pieza es única, elaborada con dedicación y los mejores ingredientes. Pedís lo que querés por WhatsApp y te lo llevamos."
-              />
-              <Image
-                src="/logos/sello-verde.png"
-                alt=""
-                width={916}
-                height={916}
-                priority
-                className="hidden md:block w-[180px] h-[180px] rounded-full shadow-[var(--shadow-md)] rotate-[6deg]"
-              />
-            </div>
+            <header className="max-w-[680px]">
+              <div className="eyebrow !text-verde !font-bold mb-2">
+                Catálogo · Hecho con amor
+              </div>
+              <h1 className="font-display text-[42px] lg:text-[52px] font-semibold leading-[1.05] text-white">
+                Nuestras Delicias
+              </h1>
+              <p className="font-body text-[17px] lg:text-[18px] font-bold text-white/90 mt-4 leading-relaxed max-w-[620px]">
+                Cada pieza es única, elaborada con dedicación y los mejores
+                ingredientes. Pedís lo que querés por WhatsApp y te lo llevamos.
+              </p>
+            </header>
           </div>
         </section>
 
-        {/* Catalog */}
         <section className="max-w-[1200px] mx-auto px-6 lg:px-10 py-14 lg:py-16">
           <CatalogGrid />
         </section>
 
-        {/* CTA band — Impacto combo §03 */}
         <section className="max-w-[1200px] mx-auto px-6 lg:px-10 pb-20">
           <div
             className={[
               "bg-azul-dk text-white",
               "rounded-[var(--radius-lg)]",
-              "px-8 lg:px-12 py-12 lg:py-14",
+              "px-8 lg:px-12 py-10 lg:py-12",
               "flex flex-col md:flex-row md:items-center md:justify-between gap-6",
             ].join(" ")}
           >
             <div className="max-w-xl">
-              <div className="eyebrow !text-verde mb-2">¿No encontrás lo tuyo?</div>
-              <h3 className="font-display text-[28px] leading-tight">
+              <div className="eyebrow !text-verde !text-[25px] !tracking-0 !normal-case mb-1">
+                ¿No encontrás lo tuyo?
+              </div>
+              <h3 className="font-display text-[30px] lg:text-[34px] leading-[1.08] text-crema">
                 Hacemos pedidos personalizados para tu celebración.
               </h3>
-              <p className="font-accent italic text-[15px] text-white/60 mt-3">
+              <p className="font-accent italic text-[20px] text-white/75 mt-2">
                 Contanos qué imaginás y lo hacemos realidad ♡
               </p>
             </div>

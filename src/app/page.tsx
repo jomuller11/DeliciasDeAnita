@@ -4,27 +4,35 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { brand } from "@/lib/tokens";
 
-/* ─── / · Home ───────────────────────────────────────────── */
 export default function Home() {
   return (
     <>
       <Header />
 
       <main className="bg-marfil min-h-screen">
-        {/* Hero */}
-        <section className="relative max-w-[1200px] mx-auto px-6 lg:px-10 py-20 lg:py-28 overflow-hidden">
-          <div className="grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center">
-            {/* Copy */}
-            <div className="max-w-[640px]">
-              <div className="eyebrow mb-4">Pastelería Artesanal · Buenos Aires</div>
-              <h1 className="font-display text-[44px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.05] text-azul-dk">
+        <section className="relative overflow-hidden">
+          <Image
+            src="/products/Highend_professional_product_2k_202602111349.jpeg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[58%_42%]"
+          />
+          <div className="absolute inset-0 bg-azul-dk/72" />
+          <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10 py-20 lg:py-28 min-h-[560px] flex items-center">
+            <div className="max-w-[680px]">
+              <div className="eyebrow !text-verde mb-4">
+                Pastelería Artesanal · Buenos Aires
+              </div>
+              <h1 className="font-display text-[44px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.05] text-white">
                 Endulzamos tu día,
                 <br />
                 <em className="font-accent text-verde">
                   celebramos tus momentos.
                 </em>
               </h1>
-              <p className="font-body text-[16px] text-azul/90 leading-relaxed max-w-[520px] mt-7">
+              <p className="font-body text-[16px] text-white/85 leading-relaxed max-w-[520px] mt-7">
                 {brand.essence}
               </p>
 
@@ -48,37 +56,19 @@ export default function Home() {
                   className={[
                     "inline-flex items-center justify-center",
                     "font-body font-semibold text-[13px] tracking-[0.5px]",
-                    "bg-transparent text-azul-dk border-2 border-azul-dk",
+                    "bg-transparent text-white border-2 border-white/80",
                     "px-[22px] py-[10px] rounded-md",
-                    "hover:bg-azul-dk hover:text-white transition-all",
+                    "hover:bg-white hover:text-azul-dk transition-all",
                   ].join(" ")}
                 >
                   Pedir por WhatsApp
                 </a>
               </div>
             </div>
-
-            {/* Brand seal — decorative */}
-            <div className="hidden lg:block relative">
-              <Image
-                src="/logos/sello-crema.png"
-                alt={`${brand.name} sello`}
-                width={1936}
-                height={1936}
-                priority
-                className="w-[420px] h-[420px] rounded-full shadow-[var(--shadow-lg)] rotate-[-4deg]"
-              />
-              {/* Decorative offset accent */}
-              <div
-                aria-hidden
-                className="absolute -bottom-3 -left-3 w-24 h-24 rounded-full bg-lima -z-10 blur-sm opacity-70"
-              />
-            </div>
           </div>
         </section>
 
-        {/* Pillars — taken verbatim from Design System §01 */}
-        <section className="max-w-[1200px] mx-auto px-6 lg:px-10 pb-20">
+        <section className="max-w-[1200px] mx-auto px-6 lg:px-10 py-20">
           <div className="grid gap-5 md:grid-cols-3">
             {[
               {

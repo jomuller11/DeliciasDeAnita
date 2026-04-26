@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Montserrat, Cormorant_Garamond } from "next/font/google";
+import {
+  Playfair_Display,
+  Montserrat,
+  Cormorant_Garamond,
+} from "next/font/google";
 import "./globals.css";
 
-/* ─── Fonts ──────────────────────────────────────────────── */
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
@@ -26,11 +29,13 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-/* ─── Metadata ───────────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: "Delicias de Anita — Pastelería Artesanal",
+  title: "Delicias de Anita - Pastelería Artesanal",
   description:
     "Tortas, box dulce, alfajores y mesas dulces hechas con amor. Pedidos por WhatsApp.",
+  icons: {
+    icon: "/logos/Iso_Delicias.svg",
+  },
   openGraph: {
     title: "Delicias de Anita",
     description: "Endulzamos tu día, celebramos tus momentos.",
@@ -38,7 +43,6 @@ export const metadata: Metadata = {
   },
 };
 
-/* ─── Root layout ────────────────────────────────────────── */
 export default function RootLayout({
   children,
 }: {
