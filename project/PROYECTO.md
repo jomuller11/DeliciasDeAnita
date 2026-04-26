@@ -1,4 +1,4 @@
-# Delicias de Anita — Documentación del Proyecto
+# Delicias de Anita - Documentación del Proyecto
 
 > Registro oficial del sitio web de la pastelería artesanal **Delicias de Anita**.
 > Última actualización: Abril 2026
@@ -46,10 +46,10 @@
 | Playfair Display | Google Fonts | Tipografía display / títulos |
 | Montserrat | Google Fonts | Tipografía cuerpo / UI |
 | Cormorant Garamond | Google Fonts | Tipografía accent / eyebrows |
-| AWS Amplify | — | Hosting y CI/CD |
-| GitHub | — | Control de versiones |
+| AWS Amplify | - | Hosting y CI/CD |
+| GitHub | - | Control de versiones |
 
-> **Nota de seguridad:** next@15.1.0 tiene CVE-2025-66478. Actualizar a versión parcheada cuando se estabilice el proyecto.
+> **Nota de seguridad:** `next@15.1.0` tiene CVE-2025-66478. Actualizar a versión parcheada cuando se estabilice el proyecto.
 
 ---
 
@@ -57,8 +57,9 @@
 
 El design system v1.0 vive en dos lugares sincronizados:
 
-- `src/app/globals.css` — tokens como CSS variables + utilities Tailwind 4 (`@theme`)
-- `src/lib/tokens.ts` — mismos valores como objeto TypeScript para uso en JS
+- `src/app/globals.css` - tokens como CSS variables + utilities Tailwind 4 (`@theme`)
+- `src/lib/tokens.ts` - mismos valores como objeto TypeScript para uso en JS
+- `D:\AI Apps\Delicias de Anita\Canva\Design System Bundle.html` - referencia visual exportada desde Canva
 
 ### Paleta de colores
 
@@ -87,10 +88,10 @@ El design system v1.0 vive en dos lugares sincronizados:
 | Nombre | Tamaño | Uso |
 |---|---|---|
 | `text-display` | 48px | Hero |
-| `text-h1` | 36px | — |
-| `text-h2` | 28px | — |
-| `text-h3` | 22px | — |
-| `text-h4` | 18px | — |
+| `text-h1` | 36px | Títulos principales |
+| `text-h2` | 28px | Secciones |
+| `text-h3` | 22px | Subsecciones |
+| `text-h4` | 18px | Cards / títulos menores |
 | `text-body` | 15px | Párrafos |
 | `text-small` | 13px | Secundario |
 | `text-label` | 11px | Labels/tags |
@@ -108,25 +109,25 @@ Siempre tintadas en azul, nunca grises neutras:
 
 ### Utilidades CSS personalizadas
 
-- `.eyebrow` — Cormorant italic uppercase, letra espaciada, color `azul-dk` por defecto (se sobreescribe con `!text-verde` en fondos oscuros)
-- `.label-tag` — Montserrat 10px bold uppercase tracked, sin color definido (se asigna por contexto)
+- `.eyebrow` - Cormorant italic uppercase, letra espaciada, color `azul-dk` por defecto; en fondos oscuros se sobreescribe con `!text-verde`.
+- `.label-tag` - Montserrat 10px bold uppercase tracked; el color se asigna por contexto.
 
 ---
 
 ## 4. Estructura del proyecto
 
-```
+```text
 delicias-de-anita/
 ├── public/
-│   ├── logos/              ← Assets de marca (ver §8)
-│   └── products/           ← Fotos de productos
+│   ├── logos/              <- Assets de marca (ver sección 8)
+│   └── products/           <- Fotos de productos
 ├── src/
 │   ├── app/
-│   │   ├── globals.css     ← Design tokens + Tailwind @theme
-│   │   ├── layout.tsx      ← Root layout + carga de fuentes
-│   │   ├── page.tsx        ← Home (Hero + Pilares)
+│   │   ├── globals.css     <- Design tokens + Tailwind @theme
+│   │   ├── layout.tsx      <- Root layout + fuentes + metadata
+│   │   ├── page.tsx        <- Home (hero con fondo + pilares)
 │   │   └── catalogo/
-│   │       └── page.tsx    ← Página catálogo
+│   │       └── page.tsx    <- Página catálogo
 │   ├── components/
 │   │   ├── Header.tsx
 │   │   ├── Footer.tsx
@@ -137,11 +138,11 @@ delicias-de-anita/
 │   │   ├── Tag.tsx
 │   │   └── Button.tsx
 │   └── lib/
-│       ├── products.ts     ← Catálogo de productos (mock)
-│       └── tokens.ts       ← Design tokens en TS
+│       ├── products.ts     <- Catálogo de productos (mock)
+│       └── tokens.ts       <- Design tokens en TS
 ├── project/
-│   ├── Design System.html  ← Design system fuente (referencia)
-│   └── PROYECTO.md         ← Este documento
+│   ├── Design System.html  <- Design system fuente (referencia)
+│   └── PROYECTO.md         <- Este documento
 └── package.json
 ```
 
@@ -150,51 +151,73 @@ delicias-de-anita/
 ## 5. Componentes
 
 ### Header
-- Sticky, `bg-marfil/90` con `backdrop-blur-md`
-- Logo: `isologo-contorno.png` + wordmark "Delicias *de* Anita"
-- Nav: Inicio, Catálogo, Eventos, Sobre Anita
-- CTA: botón "Pedir por WhatsApp" → `bg-verde text-azul-dk`
+
+- Sticky, `bg-marfil/90` con `backdrop-blur-md`.
+- Logo actual: `public/logos/logo_top.svg`.
+- Header compacto de `72px`.
+- Nav: Inicio, Catálogo, Eventos, Sobre Anita.
+- CTA: botón "Pedir por WhatsApp" con `bg-verde text-azul-dk`.
 
 ### Footer
-- `bg-azul-dk`, 3 columnas: Brand + Contacto + Navegación
-- Logo: `logo-full.png` con `brightness-[10]` para invertir sobre fondo oscuro
-- Links: Instagram + WhatsApp
+
+- `bg-azul-dk`, 3 columnas: Brand + Contacto + Navegación.
+- Logo actual: `public/logos/logo_bottom.svg`, preparado en color crema para fondo oscuro.
+- Debajo del logo se conserva el eyebrow "Pastelería artesanal" en verde.
+- Slogan en Cormorant italic.
+- Links: Instagram + WhatsApp.
 
 ### ProductCard
-- Soporta `imageSrc` (foto real) o `imageBg` (bloque de color placeholder)
-- Imagen con hover `scale-105`, badges posicionados absolute
-- CTA "Pedir" → link a WhatsApp con mensaje prefillado con el nombre del producto
+
+- Soporta `imageSrc` (foto real) o `imageBg` (bloque de color placeholder).
+- Imagen con hover `scale-105`, badges posicionados absolute.
+- CTA "Pedir" -> link a WhatsApp con mensaje prefillado con el nombre del producto.
 
 ### Badge
-- 5 variantes: `nuevo`, `destacado`, `sin-tacc`, `personalizado`, `agotado`
-- Pill shape, Montserrat bold uppercase
+
+- 5 variantes: `nuevo`, `destacado`, `sin-tacc`, `personalizado`, `agotado`.
+- Pill shape, Montserrat bold uppercase.
 
 ### Tag
-- Chip filtrable, 2 tonos: `verde` (borde verde, texto `azul-dk`) / `azul` (borde+texto `azul-dk`)
-- Estado activo: fondo sólido
+
+- Chip filtrable, 2 tonos: `verde` (borde verde, texto `azul-dk`) / `azul` (borde+texto `azul-dk`).
+- Estado activo: fondo sólido.
 
 ### SectionTitle
-- Eyebrow + heading Playfair + lede opcional
+
+- Eyebrow + heading Playfair + lede opcional.
+- Sigue disponible como componente compartido, aunque el hero de catálogo ahora tiene composición custom con fondo fotográfico.
 
 ### Button
-- 4 variantes: `primary` (verde), `outline` (borde azul-dk), `dark` (azul-dk), `soft`
+
+- 4 variantes: `primary` (verde), `outline` (borde azul-dk), `dark` (azul-dk), `soft`.
 
 ### CatalogGrid
-- `"use client"` — filtros por categoría con estado
-- Usa `Tag` para filtros y `ProductCard` para cada ítem
+
+- `"use client"` - filtros por categoría con estado.
+- Usa `Tag` para filtros y `ProductCard` para cada ítem.
 
 ---
 
 ## 6. Páginas
 
-### `/` — Home
-- **Hero:** grid 2 columnas (copy + sello decorativo `sello-crema.png`)
-- **Pilares:** 3 cards (Hecho con Amor / Recetas Artesanales / Ingredientes de Calidad)
+### `/` - Home
 
-### `/catalogo` — Catálogo
-- **Hero band:** `bg-crema/60` con `SectionTitle` + sello `sello-verde.png`
-- **Grid:** `CatalogGrid` con filtros por categoría
-- **CTA band:** `bg-azul-dk` con texto + botón WhatsApp pedido personalizado
+- **Hero:** foto de producto a pantalla ancha como fondo (`Highend_professional_product_2k_202602111349.jpeg`) con overlay `bg-azul-dk/72`.
+- Copy en blanco y verde para contraste sobre fondo oscuro.
+- CTAs: "Ver catálogo" y "Pedir por WhatsApp".
+- **Pilares:** 3 cards (Hecho con Amor / Recetas Artesanales / Ingredientes de Calidad).
+
+### `/catalogo` - Catálogo
+
+- **Hero band:** foto de producto como fondo (`121212.jpeg`) con overlay `bg-azul-dk/70`.
+- Se removió el sello decorativo lateral para evitar duplicación de marca.
+- Eyebrow "Catálogo · Hecho con amor" en bold.
+- Lede descriptivo en bold para reforzar legibilidad.
+- **Grid:** `CatalogGrid` con filtros por categoría.
+- **CTA band:** `bg-azul-dk`, pedido personalizado por WhatsApp.
+  - "¿No encontrás lo tuyo?" en 25px.
+  - "Hacemos pedidos personalizados para tu celebración." en `text-crema` (`#DCCFC8`).
+  - "Contanos qué imaginás y lo hacemos realidad ♡" en 20px.
 
 ---
 
@@ -202,18 +225,18 @@ delicias-de-anita/
 
 | ID | Nombre | Categoría | Precio | Foto |
 |---|---|---|---|---|
-| torta-tres-chocolates | Torta Tres Chocolates | Tortas | $18.500 | — |
-| box-dulce-regalo | Box Dulce Regalo | Box Dulce | desde $9.200 | ✓ Image_202512171607.jpeg |
-| alfajor-premium-x6 | Alfajor Premium x6 | Alfajores | $4.800 | ✓ Image_202512171629.jpeg |
-| torta-vainilla-frutos-rojos | Torta Vainilla & Frutos Rojos | Tortas | $16.900 | ✓ 121212.jpeg |
-| brownies-x9 | Brownies Artesanales x9 | Brownies | $5.400 | ✓ Image_202512171601.jpeg |
-| cookies-chocochip | Cookies Chocochip x12 | Cookies | $4.200 | ✓ cookies03.jpeg |
-| torta-personalizada | Torta Personalizada Temática | Personalizado | Consultar | ✓ Highend_professional_product_2k_202602111349.jpeg |
-| mesa-dulce | Mesa Dulce para Eventos | Eventos | desde $45.000 | — |
-| alfajor-clasico | Alfajor Clásico de Maicena | Alfajores | $3.600 | ✓ Image_202512171613.jpeg |
-| box-cumple | Box Cumpleaños Sorpresa | Box Dulce | $12.800 | ✓ Image_202512171633.jpeg |
-| cookies-sin-tacc | Cookies de Avena Sin TACC | Sin TACC | $4.500 | ✓ cookies04.jpeg |
-| brownie-relleno | Brownie Relleno de DDL | Brownies | $6.200 | — |
+| torta-tres-chocolates | Torta Tres Chocolates | Tortas | $18.500 | - |
+| box-dulce-regalo | Box Dulce Regalo | Box Dulce | desde $9.200 | Image_202512171607.jpeg |
+| alfajor-premium-x6 | Alfajor Premium x6 | Alfajores | $4.800 | Image_202512171629.jpeg |
+| torta-vainilla-frutos-rojos | Torta Vainilla & Frutos Rojos | Tortas | $16.900 | 121212.jpeg |
+| brownies-x9 | Brownies Artesanales x9 | Brownies | $5.400 | Image_202512171601.jpeg |
+| cookies-chocochip | Cookies Chocochip x12 | Cookies | $4.200 | cookies03.jpeg |
+| torta-personalizada | Torta Personalizada Temática | Personalizado | Consultar | Highend_professional_product_2k_202602111349.jpeg |
+| mesa-dulce | Mesa Dulce para Eventos | Eventos | desde $45.000 | - |
+| alfajor-clasico | Alfajor Clásico de Maicena | Alfajores | $3.600 | Image_202512171613.jpeg |
+| box-cumple | Box Cumpleaños Sorpresa | Box Dulce | $12.800 | Image_202512171633.jpeg |
+| cookies-sin-tacc | Cookies de Avena Sin TACC | Sin TACC | $4.500 | cookies04.jpeg |
+| brownie-relleno | Brownie Relleno de DDL | Brownies | $6.200 | - |
 
 **Fotos extra disponibles sin asignar:** `cookies06.jpeg`, `cookies07.jpeg`, `cookies08.jpeg` (cookies rellenas de chocolate/DDL y red velvet).
 
@@ -225,50 +248,46 @@ Ubicación: `public/logos/`
 
 | Archivo | Descripción | Dónde se usa |
 |---|---|---|
-| `isologo-contorno.png` | Logo completo sello+wordmark, fondo transparente, alta res | Header |
-| `logo-full.png` | Solo isologo (torta+sello), fondo transparente | Footer (con `brightness-[10]`) |
-| `sello-crema.png` | Sello completo sobre fondo crema, alta res | Hero Home |
-| `sello-verde.png` | Sello completo sobre fondo verde, alta res | Hero Catálogo |
-| `sello-lima.png` | Sello completo sobre fondo lima, alta res | Disponible para social/promos |
-| `isologo.png` / `isologo-mini.png` | Isologo solo, varios tamaños | Favicon (`src/app/icon.png`) |
+| `logo_top.svg` | Logo horizontal azul para fondos claros | Header |
+| `logo_bottom.svg` | Logo horizontal crema para fondos oscuros | Footer |
+| `Iso_Delicias.svg` | Isotipo azul | Favicon vía `metadata.icons` |
+| `IsoLogo_Delicias_Top.svg` | Lockup vertical azul | Disponible / reserva |
+| `isologo-contorno.png` | Logo completo sello+wordmark, fondo transparente | Reserva |
+| `logo-full.png` | Solo isologo (torta+sello), fondo transparente | Reserva |
+| `sello-crema.png` | Sello completo sobre fondo crema | Reserva |
+| `sello-verde.png` | Sello completo sobre fondo verde | Reserva |
+| `sello-lima.png` | Sello completo sobre fondo lima | Disponible para social/promos |
+| `isologo.png` / `isologo-mini.png` | Isologo solo, varios tamaños | Reserva |
 | `logo.png` / `logo-alt.png` | Variantes compactas | Reserva |
+
+### Favicon
+
+- Antes: `src/app/icon.png`.
+- Ahora: `metadata.icons.icon = "/logos/Iso_Delicias.svg"` en `src/app/layout.tsx`.
+- Motivo: evitar que Next compile `src/app/icon.svg` como ruta especial y reducir problemas de chunks en desarrollo.
 
 ---
 
 ## 9. Historial de trabajo
 
-### Sesión 1 — Abril 2026 · Setup inicial
+### Sesión 1 - Abril 2026 · Setup inicial
 
-- Instalación de dependencias (`npm install`)
-- Levantamiento del servidor de desarrollo (`npm run dev`)
-- Identificación de vulnerabilidad en next@15.1.0 (CVE-2025-66478)
+- Instalación de dependencias (`npm install`).
+- Levantamiento del servidor de desarrollo (`npm run dev`).
+- Identificación de vulnerabilidad en `next@15.1.0` (CVE-2025-66478).
 
-### Sesión 2 — Abril 2026 · Auditoría y corrección de contraste
+### Sesión 2 - Abril 2026 · Auditoría y corrección de contraste
 
-Análisis WCAG AA completo. Se identificaron y corrigieron los siguientes problemas:
+Análisis WCAG AA completo. Se identificaron y corrigieron problemas de contraste en eyebrows, categorías de producto, tags, badges, pilares, hero y footer.
 
-| Elemento | Problema | Solución |
-|---|---|---|
-| `.eyebrow` utility | `text-verde` (#B7C78E) sobre fondos claros → ~1.7:1 | Cambio a `text-azul-dk` por defecto; fondos oscuros mantienen `!text-verde` |
-| ProductCard categoría | `text-verde` sobre `bg-white` → ~1.7:1 | Cambio a `text-azul` |
-| Tag inactivo (tone=verde) | `text-verde` sobre fondo blanco → ~1.7:1 | Cambio a `text-azul-dk` (borde verde preserva el acento) |
-| Badge "agotado" | `text-azul/50` sobre `bg-gris` → ~1.3:1 | Cambio a `text-azul-dk` |
-| Descripciones pilares | `text-azul/65` a 12px → ~2.7:1 | Cambio a `text-azul/85` |
-| Lead del hero | `text-azul/75` → ~3.5:1 | Cambio a `text-azul/90` |
-| Footer labels (Contacto/Navegación) | `text-white/40` → ~3.0:1 | Cambio a `text-white/60` |
-| Footer slogan | `text-white/50` → ~3.8:1 | Cambio a `text-white/70` |
-| Footer frase inferior | `text-white/40` → bajo AA | Cambio a `text-white/60` |
-| Footer copyright | `text-white/30` → ~2.2:1 | Cambio a `text-white/50` |
+### Sesión 3 - Abril 2026 · Imágenes y re-fixes
 
-### Sesión 3 — Abril 2026 · Imágenes y re-fixes
+- Integración de logo en Header (`isologo-contorno.png`) y Footer (`logo-full.png`).
+- Integración de sellos decorativos en heros (Home y Catálogo).
+- Soporte de `imageSrc` en `ProductCard` para fotos reales.
+- Re-aplicación de fixes de contraste revertidos por cambios externos.
 
-- Integración de logo en Header (`isologo-contorno.png`) y Footer (`logo-full.png`)
-- Integración de sellos decorativos en heros (Home y Catálogo)
-- Soporte de `imageSrc` en `ProductCard` para fotos reales
-- Redetección y re-aplicación de fixes de contraste revertidos por cambios externos
-- Fix adicional en Header: eyebrow `!text-azul/50` a 10px → ~2.6:1 → reemplazado por `azul-dk` heredado
-
-### Sesión 4 — Abril 2026 · Fotos de productos
+### Sesión 4 - Abril 2026 · Fotos de productos
 
 Identificación y asignación de fotos al catálogo:
 
@@ -284,13 +303,28 @@ Identificación y asignación de fotos al catálogo:
 | 121212.jpeg | Torta Vainilla & Frutos Rojos |
 | Highend_professional_product_2k_202602111349.jpeg | Torta Personalizada Temática |
 
-### Sesión 5 — Abril 2026 · Deploy
+### Sesión 5 - Abril 2026 · Deploy inicial
 
-- Inicialización del repositorio Git
-- Primer commit: 49 archivos, todo el proyecto
-- Push a GitHub: `https://github.com/jomuller11/DeliciasDeAnita`
-- Configuración de AWS Amplify conectado al branch `main`
-- CI/CD activo: cada push a `main` dispara un nuevo deploy automático
+- Inicialización del repositorio Git.
+- Primer commit: 49 archivos, todo el proyecto.
+- Push a GitHub: `https://github.com/jomuller11/DeliciasDeAnita`.
+- Configuración de AWS Amplify conectado al branch `main`.
+- CI/CD activo: cada push a `main` dispara un nuevo deploy automático.
+
+### Sesión 6 - Abril 2026 · Branding, heroes y deploy visual
+
+- Reemplazo del favicon por `public/logos/Iso_Delicias.svg` vía `metadata.icons`.
+- Reemplazo del header por `public/logos/logo_top.svg`.
+- Reemplazo del footer por `public/logos/logo_bottom.svg`.
+- Recuperación del eyebrow "Pastelería artesanal" debajo del logo del footer.
+- Reemplazo del hero de Home por imagen de fondo de producto con overlay azul.
+- Reemplazo del hero de Catálogo por imagen de fondo de producto con overlay azul.
+- Eliminación de sellos decorativos duplicados en Home/Catálogo.
+- Ajustes tipográficos del CTA de pedido personalizado en catálogo.
+- Limpieza de textos con problemas de encoding en archivos tocados.
+- Build limpio validado con `npm run build`.
+- Commit desplegado: `946b465 Update branding and hero visuals`.
+- Push a `origin/main` para disparar deploy en AWS Amplify.
 
 ---
 
@@ -298,8 +332,8 @@ Identificación y asignación de fotos al catálogo:
 
 ### Arquitectura
 
-```
-Desarrollador → GitHub (main) → AWS Amplify → URL pública
+```text
+Desarrollador -> GitHub (main) -> AWS Amplify -> URL pública
 ```
 
 ### Configuración de build (Amplify)
@@ -326,35 +360,50 @@ frontend:
 
 ### Flujo de trabajo
 
-1. Editar código localmente
-2. `git add . && git commit -m "descripción"`
-3. `git push origin main`
-4. Amplify detecta el push y despliega automáticamente (~3 min)
+1. Editar código localmente.
+2. Si `next dev` está corriendo, detenerlo antes de ejecutar `npm run build` o borrar `.next`.
+3. Validar con `npm run build`.
+4. `git add . && git commit -m "descripción"`.
+5. `git push origin main`.
+6. Amplify detecta el push y despliega automáticamente (~3 min).
+
+### Nota operativa sobre `.next`
+
+Durante desarrollo se observaron errores de chunks (`Cannot find module './638.js'`, `__webpack_modules__[moduleId] is not a function`) cuando se mezcló `next dev` activo con limpieza/build de `.next`.
+
+Regla práctica:
+
+- No correr `npm run build` ni borrar `.next` mientras `next dev` esté activo.
+- Para limpiar estado local: detener el proceso Node del puerto, borrar `.next`, y levantar de nuevo `next dev`.
 
 ---
 
 ## 11. Pendientes
 
 ### Alta prioridad
-- [ ] Actualizar next.js a versión sin CVE-2025-66478
-- [ ] Agregar dominio personalizado en Amplify
-- [ ] Configurar metadata y Open Graph (título, descripción, imagen para WhatsApp/redes)
+
+- [ ] Actualizar Next.js a versión sin CVE-2025-66478.
+- [ ] Agregar dominio personalizado en Amplify.
+- [ ] Configurar metadata y Open Graph (título, descripción, imagen para WhatsApp/redes).
 
 ### Catálogo
-- [ ] Foto para **Torta Tres Chocolates**
-- [ ] Foto para **Mesa Dulce para Eventos**
-- [ ] Foto para **Brownie Relleno de DDL**
-- [ ] Decidir destino de cookies06, cookies07, cookies08 (¿nuevos productos o variantes?)
-- [ ] Reemplazar precios mock con precios reales
+
+- [ ] Foto para **Torta Tres Chocolates**.
+- [ ] Foto para **Mesa Dulce para Eventos**.
+- [ ] Foto para **Brownie Relleno de DDL**.
+- [ ] Decidir destino de `cookies06.jpeg`, `cookies07.jpeg`, `cookies08.jpeg` (¿nuevos productos o variantes?).
+- [ ] Reemplazar precios mock con precios reales.
 
 ### Páginas nuevas
-- [ ] `/sobre-anita` — Historia y equipo
-- [ ] `/eventos` — Servicios para eventos y mesas dulces
+
+- [ ] `/sobre-anita` - Historia y equipo.
+- [ ] `/eventos` - Servicios para eventos y mesas dulces.
 
 ### Funcionalidad
-- [ ] Formulario de pedido personalizado con validación
-- [ ] Integración con CMS para gestionar productos sin tocar código
+
+- [ ] Formulario de pedido personalizado con validación.
+- [ ] Integración con CMS para gestionar productos sin tocar código.
 
 ---
 
-*Documento generado con Claude Code · Delicias de Anita · 2026*
+*Documento actualizado con Codex · Delicias de Anita · 2026*
