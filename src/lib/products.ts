@@ -1,0 +1,120 @@
+import type { Product } from "@/components/ProductCard";
+
+/* ─── Mock catalog ───────────────────────────────────────── */
+/* Categories taken from Design System §07 (WhatsApp menu) and §06. */
+export const CATEGORIES = [
+  "Todos",
+  "Tortas",
+  "Box Dulce",
+  "Eventos",
+  "Alfajores",
+  "Brownies",
+  "Cookies",
+  "Personalizado",
+  "Sin TACC",
+] as const;
+
+export type Category = (typeof CATEGORIES)[number];
+
+export const PRODUCTS: Product[] = [
+  {
+    id: "torta-tres-chocolates",
+    name: "Torta Tres Chocolates",
+    category: "Tortas",
+    price: "$18.500",
+    imageBg: "verde",
+    badge: { label: "Destacado", variant: "destacado" },
+  },
+  {
+    id: "box-dulce-regalo",
+    name: "Box Dulce Regalo",
+    category: "Box Dulce",
+    price: "desde $9.200",
+    imageBg: "crema",
+    imageSrc: "/products/Image_202512171607.jpeg",
+    badge: { label: "Nuevo", variant: "nuevo" },
+  },
+  {
+    id: "alfajor-premium-x6",
+    name: "Alfajor Premium x6",
+    category: "Alfajores",
+    price: "$4.800",
+    imageBg: "lima",
+    imageSrc: "/products/Image_202512171629.jpeg",
+    badge: { label: "Sin TACC", variant: "sin-tacc" },
+  },
+  {
+    id: "torta-vainilla-frutos-rojos",
+    name: "Torta Vainilla & Frutos Rojos",
+    category: "Tortas",
+    price: "$16.900",
+    imageBg: "crema",
+    imageSrc: "/products/121212.jpeg",
+  },
+  {
+    id: "brownies-x9",
+    name: "Brownies Artesanales x9",
+    category: "Brownies",
+    price: "$5.400",
+    imageBg: "verde",
+    imageSrc: "/products/Image_202512171601.jpeg",
+  },
+  {
+    id: "cookies-chocochip",
+    name: "Cookies Chocochip x12",
+    category: "Cookies",
+    price: "$4.200",
+    imageBg: "lima",
+    imageSrc: "/products/cookies03.jpeg",
+  },
+  {
+    id: "torta-personalizada",
+    name: "Torta Personalizada Temática",
+    category: "Personalizado",
+    price: "Consultar",
+    imageBg: "crema",
+    imageSrc: "/products/Highend_professional_product_2k_202602111349.jpeg",
+    badge: { label: "Personalizado", variant: "personalizado" },
+  },
+  {
+    id: "mesa-dulce",
+    name: "Mesa Dulce para Eventos",
+    category: "Eventos",
+    price: "desde $45.000",
+    imageBg: "verde",
+    badge: { label: "Destacado", variant: "destacado" },
+  },
+  {
+    id: "alfajor-clasico",
+    name: "Alfajor Clásico de Maicena",
+    category: "Alfajores",
+    price: "$3.600",
+    imageBg: "lima",
+    imageSrc: "/products/Image_202512171613.jpeg",
+  },
+  {
+    id: "box-cumple",
+    name: "Box Cumpleaños Sorpresa",
+    category: "Box Dulce",
+    price: "$12.800",
+    imageBg: "crema",
+    imageSrc: "/products/Image_202512171633.jpeg",
+    badge: { label: "Nuevo", variant: "nuevo" },
+  },
+  {
+    id: "cookies-sin-tacc",
+    name: "Cookies de Avena Sin TACC",
+    category: "Sin TACC",
+    price: "$4.500",
+    imageBg: "verde",
+    imageSrc: "/products/cookies04.jpeg",
+    badge: { label: "Sin TACC", variant: "sin-tacc" },
+  },
+  {
+    id: "brownie-relleno",
+    name: "Brownie Relleno de DDL",
+    category: "Brownies",
+    price: "$6.200",
+    imageBg: "lima",
+  },
+];

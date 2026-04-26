@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DELICIAS DE ANITA — Design Tokens
+   v1.0 · Abril 2026
+   Source: Design System.html
+   ============================================================ */
+
+@theme {
+  /* ─── Brand Colors ──────────────────────────────────────── */
+  --color-verde: #b7c78e;        /* Verde Salvia · Principal */
+  --color-azul: #2f3d63;         /* Azul Profundo · Tipografía */
+  --color-azul-dk: #1e2a45;      /* Azul oscuro · Fondos profundos */
+  --color-azul-lt: #3d5080;      /* Azul claro · Variante */
+  --color-crema: #dccfc8;        /* Crema Rosado · Secundario */
+  --color-lima: #dde4a7;         /* Lima Pastel · Acento */
+  --color-marfil: #f7f5f0;       /* Marfil · Fondo base (nunca blanco puro) */
+  --color-gris: #d9d9d9;         /* Gris Claro · Bordes y separadores */
+  --color-white: #fdfcfa;        /* Blanco cálido (no #fff) */
+
+  /* ─── Semantic state colors ─────────────────────────────── */
+  --color-success-bg: #f0f7ee;
+  --color-success-fg: #2e7d32;
+  --color-error-bg: #fdf0f0;
+  --color-error-fg: #b71c1c;
+
+  /* ─── Typography ────────────────────────────────────────── */
+  /* Font families resolve through next/font CSS vars set on <html>:
+     --font-playfair, --font-montserrat, --font-cormorant.
+     We alias them to semantic names here so consumers say
+     `font-display` not `font-playfair`. */
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-montserrat), system-ui, sans-serif;
+  --font-accent: var(--font-cormorant), Georgia, serif;
+
+  /* ─── Type Scale (matches Design System §04) ─────────────── */
+  --text-display: 3rem;        /* 48px · Hero */
+  --text-h1: 2.25rem;          /* 36px */
+  --text-h2: 1.75rem;          /* 28px */
+  --text-h3: 1.375rem;         /* 22px */
+  --text-h4: 1.125rem;         /* 18px */
+  --text-body: 0.9375rem;      /* 15px */
+  --text-small: 0.8125rem;     /* 13px */
+  --text-label: 0.6875rem;     /* 11px */
+
+  /* ─── Radius ────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-pill: 1.25rem;
+
+  /* ─── Shadows (azul-tinted, never neutral grey) ─────────── */
+  --shadow-xs: 0 1px 4px rgba(47, 61, 99, 0.07);
+  --shadow-sm: 0 2px 6px rgba(47, 61, 99, 0.1);
+  --shadow-md: 0 2px 8px rgba(47, 61, 99, 0.09);
+  --shadow-lg: 0 4px 16px rgba(47, 61, 99, 0.12);
+}
+
+/* ─── Base layer ─────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-marfil);
+    color: var(--color-azul);
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-azul-dk);
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  ::selection {
+    background-color: var(--color-verde);
+    color: var(--color-azul-dk);
+  }
+
+  /* Scrollbar — matches design system */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gris);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-azul);
+  }
+}
+
+/* ─── Utility helpers (used across the app) ─────────────── */
+@utility eyebrow {
+  /* Cormorant italic eyebrow — used above section titles */
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 0.8125rem;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  color: var(--color-verde);
+}
+
+@utility label-tag {
+  /* Montserrat tracked-out label — used for category/meta */
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+}

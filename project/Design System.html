@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Delicias de Anita — Brand & Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --verde:#B7C78E;--azul:#2F3D63;--crema:#DCCFC8;--lima:#DDE4A7;
+  --marfil:#F7F5F0;--gris:#D9D9D9;--azul-dk:#1e2a45;--azul-lt:#3d5080;
+  --white:#FDFCFA;--text:#2F3D63;
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Montserrat',sans-serif;background:var(--marfil);color:var(--azul);display:flex;}
+#root{display:flex;width:100%;height:100vh;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--gris);border-radius:3px;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState, useRef } = React;
+
+/* ─── TOKENS ─────────────────────────────────────────── */
+const T = {
+  verde:'#B7C78E', azul:'#2F3D63', crema:'#DCCFC8',
+  lima:'#DDE4A7', marfil:'#F7F5F0', gris:'#D9D9D9',
+  white:'#FDFCFA', azulDk:'#1e2a45',
+};
+
+/* ─── SIDEBAR ─────────────────────────────────────────── */
+const NAV = [
+  {id:'marca',    icon:'✦', label:'Marca'},
+  {id:'logo',     icon:'◎', label:'Logo'},
+  {id:'colores',  icon:'◈', label:'Colores'},
+  {id:'tipo',     icon:'Aa', label:'Tipografía'},
+  {id:'voz',      icon:'♡', label:'Voz de Marca'},
+  {id:'comp',     icon:'⊞', label:'Componentes'},
+  {id:'social',   icon:'◻', label:'Social Media'},
+];
+
+function Sidebar({active, setActive}) {
+  return (
+    <nav style={{
+      width:220, minWidth:220, background:T.azulDk, height:'100vh',
+      display:'flex', flexDirection:'column', padding:'32px 0',
+      position:'sticky', top:0, zIndex:10,
+    }}>
+      <div style={{padding:'0 24px 32px', borderBottom:`1px solid rgba(255,255,255,0.08)`}}>
+        <div style={{fontFamily:"'Cormorant Garamond',serif", color:T.verde, fontSize:11, letterSpacing:3, textTransform:'uppercase', marginBottom:4}}>Design System</div>
+        <div style={{fontFamily:"'Playfair Display',serif", color:T.white, fontSize:17, lineHeight:1.2}}>Delicias<br/>de Anita</div>
+        <div style={{marginTop:8, fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:'rgba(255,255,255,0.4)', fontSize:12}}>v1.0 · Abril 2026</div>
+      </div>
+      <div style={{flex:1, padding:'16px 0', overflowY:'auto'}}>
+        {NAV.map(n=>(
+          <button key={n.id} onClick={()=>setActive(n.id)} style={{
+            display:'flex', alignItems:'center', gap:12,
+            width:'100%', padding:'11px 24px', background:'none', border:'none',
+            cursor:'pointer', textAlign:'left', transition:'all 0.2s',
+            color: active===n.id ? T.verde : 'rgba(255,255,255,0.55)',
+            background: active===n.id ? 'rgba(183,199,142,0.08)' : 'transparent',
+            borderLeft: active===n.id ? `3px solid ${T.verde}` : '3px solid transparent',
+          }}>
+            <span style={{fontSize:13, width:18, textAlign:'center', fontFamily:'monospace'}}>{n.icon}</span>
+            <span style={{fontFamily:"'Montserrat',sans-serif", fontSize:12, fontWeight: active===n.id ? 600 : 400, letterSpacing:0.5}}>{n.label}</span>
+          </button>
+        ))}
+      </div>
+      <div style={{padding:'20px 24px', borderTop:`1px solid rgba(255,255,255,0.08)`}}>
+        <div style={{color:'rgba(255,255,255,0.3)', fontSize:10, fontFamily:'Montserrat', letterSpacing:0.5}}>
+          @deliciasdeanitaok<br/>
+          <span style={{color:'rgba(255,255,255,0.2)'}}>1163063039</span>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+/* ─── SECTION WRAPPER ─────────────────────────────────── */
+function Section({title, subtitle, children}) {
+  return (
+    <div style={{padding:'48px 56px', minHeight:'100%'}}>
+      <div style={{marginBottom:40, paddingBottom:24, borderBottom:`1px solid rgba(47,61,99,0.12)`}}>
+        <div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:T.verde, fontSize:13, letterSpacing:2, textTransform:'uppercase', marginBottom:8}}>{subtitle}</div>
+        <h1 style={{fontFamily:"'Playfair Display',serif", fontSize:36, fontWeight:600, color:T.azulDk, lineHeight:1.1}}>{title}</h1>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function Row({label, children, gap=16}) {
+  return (
+    <div style={{marginBottom:40}}>
+      {label && <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:'rgba(47,61,99,0.45)', marginBottom:16}}>{label}</div>}
+      <div style={{display:'flex', flexWrap:'wrap', gap}}>{children}</div>
+    </div>
+  );
+}
+
+function Card({children, style={}}) {
+  return (
+    <div style={{background:T.white, borderRadius:12, padding:24, boxShadow:'0 1px 4px rgba(47,61,99,0.07)', ...style}}>
+      {children}
+    </div>
+  );
+}
+
+function CopyBadge({value}) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    navigator.clipboard.writeText(value).catch(()=>{});
+    setCopied(true); setTimeout(()=>setCopied(false),1400);
+  };
+  return (
+    <button onClick={copy} style={{
+      fontFamily:'monospace', fontSize:12, padding:'3px 8px',
+      background: copied ? T.verde : 'rgba(47,61,99,0.08)',
+      color: copied ? T.white : T.azul,
+      border:'none', borderRadius:4, cursor:'pointer', transition:'all 0.2s',
+    }}>{copied ? '✓ copiado' : value}</button>
+  );
+}
+
+/* ─── 1. MARCA ──────────────────────────────────────────── */
+function SecMarca() {
+  return (
+    <Section title="Identidad de Marca" subtitle="01 · Marca">
+      <Row label="Esencia">
+        <Card style={{flex:1, minWidth:300, background: T.azulDk}}>
+          <div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:T.verde, fontSize:13, letterSpacing:2, marginBottom:12}}>NUESTRA ESENCIA</div>
+          <p style={{fontFamily:"'Playfair Display',serif", fontSize:18, color:T.white, lineHeight:1.65, fontStyle:'italic'}}>
+            "Pastelería artesanal que transforma ingredientes simples en momentos especiales. Cada receta está hecha con amor, dedicación y los mejores ingredientes."
+          </p>
+        </Card>
+        <Card style={{flex:1, minWidth:300}}>
+          <div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:T.verde, fontSize:13, letterSpacing:2, marginBottom:16}}>SLOGAN</div>
+          <p style={{fontFamily:"'Playfair Display',serif", fontSize:22, color:T.azulDk, lineHeight:1.4, fontStyle:'italic', marginBottom:12}}>
+            "Endulzamos tu día,<br/>celebramos tus momentos."
+          </p>
+          <p style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:'rgba(47,61,99,0.5)', fontSize:15}}>
+            Hecho con amor, para momentos inolvidables ♡
+          </p>
+        </Card>
+      </Row>
+
+      <Row label="Pilares de Marca" gap={16}>
+        {[
+          {icon:'♡', title:'Hecho con Amor', desc:'Cada pieza es única, elaborada con dedicación y cariño genuino. No hay producción en serie.'},
+          {icon:'⌘', title:'Recetas Artesanales', desc:'Fórmulas propias y tradicionales que preservan el sabor auténtico. Sin atajos.'},
+          {icon:'✦', title:'Ingredientes de Calidad', desc:'Solo lo mejor entra en cada preparación. Materias primas seleccionadas cuidadosamente.'},
+        ].map(p=>(
+          <Card key={p.title} style={{flex:1, minWidth:200, borderTop:`3px solid ${T.verde}`}}>
+            <div style={{fontSize:24, marginBottom:12}}>{p.icon}</div>
+            <div style={{fontFamily:"'Playfair Display',serif", fontSize:16, fontWeight:600, color:T.azulDk, marginBottom:8}}>{p.title}</div>
+            <p style={{fontFamily:'Montserrat', fontSize:12, lineHeight:1.65, color:'rgba(47,61,99,0.65)'}}>{p.desc}</p>
+          </Card>
+        ))}
+      </Row>
+
+      <Row label="Datos de Contacto">
+        <Card style={{display:'flex', gap:32, flexWrap:'wrap'}}>
+          {[
+            {label:'Instagram', val:'@deliciasdeanitaok'},
+            {label:'WhatsApp', val:'1163063039'},
+          ].map(c=>(
+            <div key={c.label}>
+              <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:'rgba(47,61,99,0.4)', marginBottom:4}}>{c.label}</div>
+              <div style={{fontFamily:"'Playfair Display',serif", fontSize:16, color:T.azulDk}}>{c.val}</div>
+            </div>
+          ))}
+        </Card>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── 2. LOGO ────────────────────────────────────────────── */
+function SecLogo() {
+  const logos = [
+    {file:'uploads/logo_verde.png',   name:'Variante Verde',  bg:T.verde,   use:'Fondos claros o neutros',  textColor:T.azulDk},
+    {file:'uploads/logo_crema.png',   name:'Variante Crema',  bg:T.crema,   use:'Fondos crema o rosado',    textColor:T.azulDk},
+    {file:'uploads/logo_lima.png',    name:'Variante Lima',   bg:T.lima,    use:'Fondos lima o pasteles',   textColor:T.azulDk},
+    {file:'uploads/logo_midgrey.png', name:'Variante Neutro', bg:'#F0EFED', use:'Impresión / escala de grises', textColor:T.azulDk},
+  ];
+
+  return (
+    <Section title="Sistema de Logo" subtitle="02 · Logo">
+      <Row label="Las cuatro variantes oficiales" gap={20}>
+        {logos.map(l=>(
+          <div key={l.name} style={{flex:'1 1 220px', display:'flex', flexDirection:'column', gap:8}}>
+            <div style={{background:l.bg, borderRadius:12, padding:24, display:'flex', alignItems:'center', justifyContent:'center', aspectRatio:'1', boxShadow:'0 2px 8px rgba(47,61,99,0.1)'}}>
+              <img src={l.file} alt={l.name} style={{width:'90%', height:'90%', objectFit:'contain'}} />
+            </div>
+            <div style={{fontFamily:"'Playfair Display',serif", fontSize:13, fontWeight:600, color:T.azulDk}}>{l.name}</div>
+            <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(47,61,99,0.5)'}}>{l.use}</div>
+          </div>
+        ))}
+      </Row>
+
+      <Row label="Uso sobre fondos oscuros">
+        <Card style={{background:T.azulDk, flex:1, display:'flex', gap:32, alignItems:'center', justifyContent:'center', padding:40, flexWrap:'wrap'}}>
+          <div style={{textAlign:'center'}}>
+            <img src="uploads/logo_verde.png" alt="logo verde" style={{width:140, height:140, objectFit:'contain'}} />
+            <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(255,255,255,0.5)', marginTop:8}}>✓ Recomendado</div>
+          </div>
+          <div style={{textAlign:'center'}}>
+            <img src="uploads/logo_crema.png" alt="logo crema" style={{width:140, height:140, objectFit:'contain', filter:'brightness(1.05)'}} />
+            <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(255,255,255,0.5)', marginTop:8}}>✓ Alternativo</div>
+          </div>
+        </Card>
+      </Row>
+
+      <Row label="Zona de protección">
+        <Card style={{flex:1}}>
+          <p style={{fontFamily:'Montserrat', fontSize:13, lineHeight:1.7, color:'rgba(47,61,99,0.7)', maxWidth:560}}>
+            El logo debe tener siempre un espacio libre equivalente a <strong style={{color:T.azulDk}}>la altura de la letra "D"</strong> en todos sus lados. No superponer elementos decorativos, texto ni gráficos sobre el isotipo ni el nombre de la marca.
+          </p>
+          <div style={{marginTop:16, display:'flex', gap:12, flexWrap:'wrap'}}>
+            {[
+              {txt:'✗ No estirar ni deformar', bad:true},
+              {txt:'✗ No cambiar colores arbitrariamente', bad:true},
+              {txt:'✗ No rotar el logo', bad:true},
+              {txt:'✓ Siempre mantener proporciones originales', bad:false},
+            ].map(r=>(
+              <span key={r.txt} style={{fontFamily:'Montserrat', fontSize:11, padding:'5px 10px', borderRadius:20, background: r.bad ? '#fde8e8' : '#e8f5e9', color: r.bad ? '#b71c1c' : '#2e7d32'}}>{r.txt}</span>
+            ))}
+          </div>
+        </Card>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── 3. COLORES ─────────────────────────────────────────── */
+function SecColores() {
+  const palette = [
+    {name:'Verde Salvia',  hex:'#B7C78E', role:'Principal', desc:'Color dominante de la marca. Fondos, elementos destacados.'},
+    {name:'Azul Profundo', hex:'#2F3D63', role:'Tipografía', desc:'Texto principal, contornos del logo, elementos de autoridad.'},
+    {name:'Crema Rosado',  hex:'#DCCFC8', role:'Secundario', desc:'Fondos suaves, tarjetas, elementos femeninos.'},
+    {name:'Lima Pastel',   hex:'#DDE4A7', role:'Acento',     desc:'Highlights, etiquetas, detalles estacionales.'},
+    {name:'Marfil',        hex:'#F7F5F0', role:'Fondo',      desc:'Fondo base del sistema. Nunca blanco puro.'},
+    {name:'Gris Claro',    hex:'#D9D9D9', role:'Neutro',     desc:'Bordes, separadores, elementos inactivos.'},
+  ];
+
+  const combos = [
+    {bg:T.azulDk, fg:T.verde,  label:'Impacto'},
+    {bg:T.verde,  fg:T.azulDk, label:'Principal'},
+    {bg:T.crema,  fg:T.azulDk, label:'Suave'},
+    {bg:T.lima,   fg:T.azulDk, label:'Fresco'},
+    {bg:T.marfil, fg:T.azulDk, label:'Base'},
+  ];
+
+  const hexToRgb = h => {
+    const r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16);
+    return `${r}, ${g}, ${b}`;
+  };
+
+  return (
+    <Section title="Paleta de Colores" subtitle="03 · Colores">
+      <Row label="Paleta oficial" gap={16}>
+        {palette.map(c=>(
+          <div key={c.hex} style={{flex:'1 1 160px'}}>
+            <div style={{background:c.hex, height:96, borderRadius:'10px 10px 0 0', boxShadow:'0 2px 6px rgba(47,61,99,0.1)'}}></div>
+            <div style={{background:T.white, borderRadius:'0 0 10px 10px', padding:'12px 14px', boxShadow:'0 2px 6px rgba(47,61,99,0.07)'}}>
+              <div style={{fontFamily:"'Playfair Display',serif", fontSize:13, fontWeight:600, color:T.azulDk, marginBottom:2}}>{c.name}</div>
+              <div style={{fontFamily:'Montserrat', fontSize:10, color:'rgba(47,61,99,0.4)', marginBottom:6, textTransform:'uppercase', letterSpacing:1}}>{c.role}</div>
+              <CopyBadge value={c.hex} />
+              <div style={{fontFamily:'Montserrat', fontSize:10, color:'rgba(47,61,99,0.4)', marginTop:4}}>RGB {hexToRgb(c.hex)}</div>
+              <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(47,61,99,0.55)', marginTop:8, lineHeight:1.5}}>{c.desc}</div>
+            </div>
+          </div>
+        ))}
+      </Row>
+
+      <Row label="Combinaciones recomendadas" gap={12}>
+        {combos.map(c=>(
+          <div key={c.label} style={{flex:'1 1 140px', background:c.bg, borderRadius:10, padding:'20px 16px', boxShadow:'0 2px 6px rgba(47,61,99,0.1)'}}>
+            <div style={{fontFamily:"'Playfair Display',serif", fontStyle:'italic', fontSize:20, color:c.fg, marginBottom:8}}>Aa</div>
+            <div style={{fontFamily:'Montserrat', fontSize:11, color:c.fg, opacity:0.6, letterSpacing:1}}>{c.label}</div>
+            <div style={{fontFamily:'Montserrat', fontSize:10, color:c.fg, opacity:0.4, marginTop:4}}>{c.bg} / {c.fg}</div>
+          </div>
+        ))}
+      </Row>
+
+      <Row label="Gradientes y texturas">
+        <Card style={{flex:1, display:'flex', gap:16, flexWrap:'wrap'}}>
+          {[
+            {bg:'linear-gradient(135deg, #B7C78E, #DDE4A7)', label:'Verde fresco'},
+            {bg:'linear-gradient(135deg, #DCCFC8, #F7F5F0)', label:'Crema suave'},
+            {bg:'linear-gradient(135deg, #2F3D63, #3d5080)',  label:'Azul profundo'},
+          ].map(g=>(
+            <div key={g.label} style={{flex:'1 1 150px', borderRadius:8, overflow:'hidden'}}>
+              <div style={{background:g.bg, height:60, borderRadius:'8px 8px 0 0'}}></div>
+              <div style={{background:'white', padding:'8px 10px', borderRadius:'0 0 8px 8px'}}>
+                <div style={{fontFamily:'Montserrat', fontSize:11, color:T.azulDk}}>{g.label}</div>
+                <div style={{fontFamily:'Montserrat', fontSize:10, color:'rgba(47,61,99,0.4)'}}>Uso decorativo únicamente</div>
+              </div>
+            </div>
+          ))}
+        </Card>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── 4. TIPOGRAFÍA ──────────────────────────────────────── */
+function SecTipo() {
+  const scale = [
+    {size:48, weight:700, label:'Display / Hero'},
+    {size:36, weight:600, label:'H1 / Título principal'},
+    {size:28, weight:600, label:'H2 / Sección'},
+    {size:22, weight:400, label:'H3 / Subsección'},
+    {size:18, weight:400, label:'H4 / Tarjeta'},
+    {size:15, weight:400, label:'Body / Cuerpo'},
+    {size:13, weight:400, label:'Small / Detalle'},
+    {size:11, weight:600, label:'Label / Etiqueta'},
+  ];
+
+  return (
+    <Section title="Sistema Tipográfico" subtitle="04 · Tipografía">
+      <Row label="Las tres fuentes">
+        <Card style={{flex:1, borderLeft:`4px solid ${T.verde}`, minWidth:260}}>
+          <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:'rgba(47,61,99,0.4)', marginBottom:12}}>TÍTULOS / DESTACADOS</div>
+          <div style={{fontFamily:"'Playfair Display',serif", fontSize:40, color:T.azulDk, lineHeight:1.1}}>Playfair<br/>Display</div>
+          <div style={{fontFamily:"'Playfair Display',serif", fontStyle:'italic', fontSize:20, color:T.verde, marginTop:8}}>Italic Display</div>
+          <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(47,61,99,0.5)', marginTop:12, lineHeight:1.6}}>Usada para títulos, nombres de productos, frases destacadas y el nombre de la marca. Aporta elegancia artesanal.</div>
+        </Card>
+        <Card style={{flex:1, borderLeft:`4px solid ${T.crema}`, minWidth:260}}>
+          <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:'rgba(47,61,99,0.4)', marginBottom:12}}>TEXTOS / CUERPO</div>
+          <div style={{fontFamily:'Montserrat', fontSize:36, color:T.azulDk, fontWeight:300, lineHeight:1.1}}>Montserrat<br/><strong style={{fontWeight:700}}>700</strong></div>
+          <div style={{fontFamily:'Montserrat', fontSize:13, color:'rgba(47,61,99,0.6)', marginTop:12, lineHeight:1.6}}>Para cuerpo de texto, descripciones, precios, información de contacto y toda la comunicación digital. Legible y moderna.</div>
+        </Card>
+        <Card style={{flex:1, borderLeft:`4px solid ${T.lima}`, minWidth:260}}>
+          <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:'rgba(47,61,99,0.4)', marginBottom:12}}>DETALLES / ACENTOS</div>
+          <div style={{fontFamily:"'Cormorant Garamond',serif", fontSize:38, color:T.azulDk, fontStyle:'italic', lineHeight:1.1}}>Cormorant<br/>Garamond</div>
+          <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(47,61,99,0.5)', marginTop:12, lineHeight:1.6}}>Para subtítulos, leyendas, frases poéticas y detalles finos. Añade sofisticación y romanticismo artesanal.</div>
+        </Card>
+      </Row>
+
+      <Row label="Escala tipográfica — Playfair Display">
+        <Card style={{flex:1}}>
+          {scale.map(s=>(
+            <div key={s.size} style={{display:'flex', alignItems:'baseline', gap:16, padding:'10px 0', borderBottom:'1px solid rgba(47,61,99,0.06)'}}>
+              <div style={{fontFamily:'monospace', fontSize:10, color:'rgba(47,61,99,0.35)', width:28, textAlign:'right'}}>{s.size}</div>
+              <div style={{fontFamily:"'Playfair Display',serif", fontSize:s.size, fontWeight:s.weight, color:T.azulDk, lineHeight:1.1, flex:1}}>Delicias de Anita</div>
+              <div style={{fontFamily:'Montserrat', fontSize:10, color:'rgba(47,61,99,0.4)', whiteSpace:'nowrap'}}>{s.label}</div>
+            </div>
+          ))}
+        </Card>
+      </Row>
+
+      <Row label="Ejemplo de pairing">
+        <Card style={{flex:1, padding:40, background:T.crema}}>
+          <div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:T.azulDk, fontSize:13, letterSpacing:3, marginBottom:8, opacity:0.6}}>NUEVO PRODUCTO</div>
+          <h2 style={{fontFamily:"'Playfair Display',serif", fontSize:34, color:T.azulDk, fontWeight:600, marginBottom:12, lineHeight:1.2}}>Alfajor de Chocolate<br/>Premium</h2>
+          <p style={{fontFamily:'Montserrat', fontSize:13, color:'rgba(47,61,99,0.7)', lineHeight:1.7, maxWidth:400, marginBottom:16}}>Elaborado con cacao de origen único, relleno de dulce de leche artesanal y bañado en chocolate cobertura. Una experiencia única en cada mordida.</p>
+          <div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:T.azulDk, fontSize:17}}>Hecho con amor ♡</div>
+        </Card>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── 5. VOZ DE MARCA ────────────────────────────────────── */
+function SecVoz() {
+  const tonos = [
+    {q:'✓ Usar', items:['Cálido y cercano', 'Femenino y elegante', 'Emotivo y evocador', 'Artesanal y genuino', 'Celebratorio y especial']},
+    {q:'✗ Evitar', items:['Corporativo o frío', 'Agresivo o urgente', 'Técnico o clínico', 'Genérico o impersonal', 'Excesivamente informal']},
+  ];
+
+  const ejemplos = [
+    {
+      tipo:'Descripción de producto',
+      mal:  'Torta de chocolate 1kg con crema.',
+      bien: 'Una torta de chocolate que abraza en cada bocado. Rellena con ganache artesanal y decorada con amor para que tu celebración sea inolvidable.',
+    },
+    {
+      tipo:'Llamada a la acción',
+      mal:  'Compra ahora. Envíos disponibles.',
+      bien: 'Pedís tu delicia por WhatsApp y te la llevamos. ¡Endulzamos tu día!',
+    },
+    {
+      tipo:'Agradecimiento',
+      mal:  'Gracias por su compra.',
+      bien: 'Gracias por confiar en nosotras. Cada bocado fue hecho pensando en vos ♡',
+    },
+  ];
+
+  return (
+    <Section title="Voz de Marca" subtitle="05 · Comunicación">
+      <Row label="Tono de comunicación" gap={20}>
+        {tonos.map(t=>(
+          <Card key={t.q} style={{flex:1, minWidth:220, background: t.q.startsWith('✓') ? '#f0f7ee' : '#fdf0f0'}}>
+            <div style={{fontFamily:'Montserrat', fontSize:11, fontWeight:700, letterSpacing:1, color: t.q.startsWith('✓') ? '#2e7d32' : '#b71c1c', marginBottom:14}}>{t.q}</div>
+            {t.items.map(i=>(
+              <div key={i} style={{fontFamily:'Montserrat', fontSize:13, color:T.azulDk, padding:'6px 0', borderBottom:'1px solid rgba(47,61,99,0.06)'}}>{i}</div>
+            ))}
+          </Card>
+        ))}
+      </Row>
+
+      <Row label="Ejemplos de escritura">
+        {ejemplos.map(e=>(
+          <Card key={e.tipo} style={{flex:1, minWidth:280}}>
+            <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:T.verde, marginBottom:12}}>{e.tipo}</div>
+            <div style={{background:'#fdf0f0', borderRadius:8, padding:'10px 12px', marginBottom:10}}>
+              <div style={{fontFamily:'Montserrat', fontSize:10, color:'#b71c1c', marginBottom:4}}>✗ EVITAR</div>
+              <div style={{fontFamily:'Montserrat', fontSize:13, color:'rgba(47,61,99,0.7)', lineHeight:1.5}}>{e.mal}</div>
+            </div>
+            <div style={{background:'#f0f7ee', borderRadius:8, padding:'10px 12px'}}>
+              <div style={{fontFamily:'Montserrat', fontSize:10, color:'#2e7d32', marginBottom:4}}>✓ USAR</div>
+              <div style={{fontFamily:'Montserrat', fontSize:13, color:T.azulDk, lineHeight:1.5}}>{e.bien}</div>
+            </div>
+          </Card>
+        ))}
+      </Row>
+
+      <Row label="Frases de marca">
+        <div style={{display:'flex', flexWrap:'wrap', gap:10}}>
+          {[
+            '"Endulzamos tu día, celebramos tus momentos."',
+            '"Hecho con amor, para momentos inolvidables."',
+            '"Cada bocado, una historia de sabor."',
+            '"El regalo perfecto para cualquier ocasión."',
+            '"Momentos dulces que se quedan."',
+          ].map(f=>(
+            <div key={f} style={{background:T.white, border:`1px solid rgba(183,199,142,0.4)`, borderRadius:8, padding:'10px 16px', fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', fontSize:15, color:T.azulDk, boxShadow:'0 1px 4px rgba(47,61,99,0.05)'}}>
+              {f}
+            </div>
+          ))}
+        </div>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── 6. COMPONENTES ─────────────────────────────────────── */
+function SecComp() {
+  const [pressed, setPressed] = useState(null);
+  const btns = [
+    {label:'Pedir por WhatsApp', bg:T.verde, color:T.azulDk, border:'none'},
+    {label:'Ver Catálogo', bg:'transparent', color:T.azulDk, border:`2px solid ${T.azulDk}`},
+    {label:'Consultar precio', bg:T.azulDk, color:T.white, border:'none'},
+    {label:'Ver más', bg:T.crema, color:T.azulDk, border:'none'},
+  ];
+
+  const tags = ['Tortas','Box Dulce','Eventos','Alfajores','Brownies','Cookies','Personalizado','Sin TACC'];
+  const badges = [
+    {txt:'Nuevo',        bg:T.verde,   c:T.azulDk},
+    {txt:'Destacado',    bg:T.azulDk,  c:T.white},
+    {txt:'Sin TACC',     bg:T.lima,    c:T.azulDk},
+    {txt:'Personalizado',bg:T.crema,   c:T.azulDk},
+    {txt:'Agotado',      bg:T.gris,    c:'rgba(47,61,99,0.5)'},
+  ];
+
+  return (
+    <Section title="Biblioteca de Componentes" subtitle="06 · Componentes">
+      <Row label="Botones">
+        <Card style={{flex:1, display:'flex', flexWrap:'wrap', gap:12, alignItems:'center'}}>
+          {btns.map(b=>(
+            <button key={b.label} style={{
+              fontFamily:'Montserrat', fontSize:13, fontWeight:600, letterSpacing:0.5,
+              padding:'12px 22px', borderRadius:8, cursor:'pointer',
+              background:b.bg, color:b.color, border:b.border,
+              transition:'all 0.18s', transform: pressed===b.label ? 'scale(0.97)' : 'scale(1)',
+              boxShadow: pressed===b.label ? 'none' : '0 2px 6px rgba(47,61,99,0.1)',
+            }}
+            onMouseDown={()=>setPressed(b.label)} onMouseUp={()=>setPressed(null)}
+            >{b.label}</button>
+          ))}
+        </Card>
+      </Row>
+
+      <Row label="Badges / Etiquetas de estado">
+        <Card style={{flex:1, display:'flex', flexWrap:'wrap', gap:8, alignItems:'center'}}>
+          {badges.map(b=>(
+            <span key={b.txt} style={{fontFamily:'Montserrat', fontSize:11, fontWeight:700, letterSpacing:1, textTransform:'uppercase', padding:'4px 12px', borderRadius:20, background:b.bg, color:b.c}}>{b.txt}</span>
+          ))}
+        </Card>
+      </Row>
+
+      <Row label="Tags de categoría">
+        <Card style={{flex:1, display:'flex', flexWrap:'wrap', gap:8}}>
+          {tags.map((t,i)=>(
+            <span key={t} style={{fontFamily:'Montserrat', fontSize:12, padding:'6px 14px', borderRadius:20, cursor:'pointer', border:`1.5px solid ${i%2===0 ? T.verde : T.azulDk}`, color: i%2===0 ? T.verde : T.azulDk, background:'transparent', transition:'all 0.2s'}}>{t}</span>
+          ))}
+        </Card>
+      </Row>
+
+      <Row label="Tarjeta de producto" gap={20}>
+        {[
+          {name:'Torta Tres Chocolates', cat:'Tortas', price:'$18.500', img:T.verde, tag:'Destacado'},
+          {name:'Box Dulce Regalo', cat:'Box Dulce', price:'desde $9.200', img:T.crema, tag:'Nuevo'},
+          {name:'Alfajor Premium x6', cat:'Alfajores', price:'$4.800', img:T.lima, tag:'Sin TACC'},
+        ].map(p=>(
+          <div key={p.name} style={{flex:'1 1 200px', background:T.white, borderRadius:12, overflow:'hidden', boxShadow:'0 2px 8px rgba(47,61,99,0.09)'}}>
+            <div style={{background:p.img, height:120, display:'flex', alignItems:'center', justifyContent:'center', position:'relative'}}>
+              <span style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', fontSize:13, color:T.azulDk, opacity:0.5}}>foto del producto</span>
+              <span style={{position:'absolute', top:10, right:10, fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:1, textTransform:'uppercase', background:T.azulDk, color:T.white, padding:'3px 8px', borderRadius:20}}>{p.tag}</span>
+            </div>
+            <div style={{padding:16}}>
+              <div style={{fontFamily:'Montserrat', fontSize:10, color:T.verde, fontWeight:600, letterSpacing:1, textTransform:'uppercase', marginBottom:4}}>{p.cat}</div>
+              <div style={{fontFamily:"'Playfair Display',serif", fontSize:15, color:T.azulDk, fontWeight:600, marginBottom:8}}>{p.name}</div>
+              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                <span style={{fontFamily:'Montserrat', fontSize:15, fontWeight:700, color:T.azulDk}}>{p.price}</span>
+                <button style={{fontFamily:'Montserrat', fontSize:11, fontWeight:600, padding:'6px 12px', background:T.verde, color:T.azulDk, border:'none', borderRadius:6, cursor:'pointer'}}>Pedir</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Row>
+
+      <Row label="Campo de formulario / Inputs">
+        <Card style={{flex:1, display:'flex', gap:20, flexWrap:'wrap'}}>
+          {['Nombre y apellido','Fecha del evento','Mensaje o pedido especial'].map((l,i)=>(
+            <div key={l} style={{flex:'1 1 200px'}}>
+              <label style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:1.5, textTransform:'uppercase', color:'rgba(47,61,99,0.5)', display:'block', marginBottom:6}}>{l}</label>
+              {i<2
+                ? <input readOnly placeholder={i===0?'María García':'15 de Mayo, 2025'} style={{width:'100%', fontFamily:'Montserrat', fontSize:13, padding:'10px 14px', border:`1.5px solid ${T.gris}`, borderRadius:8, background:T.marfil, color:T.azulDk, outline:'none'}} />
+                : <textarea readOnly placeholder="Torta para 20 personas, sabor vainilla..." style={{width:'100%', fontFamily:'Montserrat', fontSize:13, padding:'10px 14px', border:`1.5px solid ${T.gris}`, borderRadius:8, background:T.marfil, color:T.azulDk, outline:'none', resize:'vertical', minHeight:80}} />
+              }
+            </div>
+          ))}
+        </Card>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── 7. SOCIAL MEDIA ────────────────────────────────────── */
+function SecSocial() {
+  const [igActive, setIgActive] = useState(0);
+  const posts = [
+    {bg:T.verde,  type:'quote', text:'"Hecho con amor\nse nota en\ncada bocada."', sub:'@deliciasdeanitaok'},
+    {bg:T.crema,  type:'prod',  text:'NUEVO SABOR', sub:'Chocotorta Premium', price:'Consultá por WhatsApp'},
+    {bg:T.azulDk, type:'logo',  text:'Delicias\nde Anita', sub:'pastelería artesanal'},
+    {bg:T.lima,   type:'quote', text:'"Momentos dulces\nque se quedan."', sub:'#deliciasdeanita'},
+  ];
+
+  const highlights = ['Tortas','Box Dulce','Eventos','Opiniones','Pedidos','Promo'];
+  const highlightColors = [T.verde, T.crema, T.lima, T.crema, T.verde, T.azulDk];
+
+  const menuItems = [
+    {icon:'🎂', cat:'TORTAS',          desc:'Clásicas, temáticas y personalizadas.'},
+    {icon:'🎁', cat:'BOX DULCE',       desc:'Regalos listos para sorprender.'},
+    {icon:'✨', cat:'EVENTOS',         desc:'Mesas dulces para tus celebraciones.'},
+    {icon:'🍪', cat:'OTROS DULCES',    desc:'Cookies, alfajores, brownies y más.'},
+  ];
+
+  return (
+    <Section title="Social Media" subtitle="07 · Redes Sociales">
+      <Row label="Feed de Instagram — Grilla ejemplo" gap={8}>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:4, width:300, flexShrink:0}}>
+          {posts.concat(posts).slice(0,9).map((p,i)=>(
+            <div key={i} onClick={()=>setIgActive(i%4)} style={{
+              aspectRatio:'1', background:p.bg, borderRadius:4, cursor:'pointer',
+              display:'flex', alignItems:'center', justifyContent:'center',
+              border: igActive===i%4 ? `2px solid ${T.azulDk}` : '2px solid transparent',
+              transition:'all 0.2s', overflow:'hidden', padding:8,
+            }}>
+              {p.type==='logo'
+                ? <img src="uploads/logo_verde.png" alt="logo" style={{width:'80%', height:'80%', objectFit:'contain', filter:'brightness(10)'}} />
+                : <div style={{textAlign:'center'}}>
+                    <div style={{fontFamily:"'Playfair Display',serif", fontStyle:'italic', fontSize:10, color: p.bg===T.azulDk?T.white:T.azulDk, lineHeight:1.2, whiteSpace:'pre-line'}}>{p.text.split('\n')[0]}</div>
+                  </div>
+              }
+            </div>
+          ))}
+        </div>
+        <div style={{flex:1, minWidth:280}}>
+          <Card style={{background:posts[igActive].bg, minHeight:280, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', textAlign:'center', padding:32}}>
+            {posts[igActive].type==='logo'
+              ? <><img src="uploads/logo_verde.png" alt="logo" style={{width:140, height:140, objectFit:'contain', filter:'brightness(10)', marginBottom:12}} /><div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:T.white, fontSize:14}}>{posts[igActive].sub}</div></>
+              : <>
+                  <div style={{fontFamily:"'Playfair Display',serif", fontStyle:'italic', fontSize:24, color: posts[igActive].bg===T.azulDk?T.white:T.azulDk, lineHeight:1.3, marginBottom:12, whiteSpace:'pre-line'}}>{posts[igActive].text}</div>
+                  <div style={{fontFamily:'Montserrat', fontSize:11, color: posts[igActive].bg===T.azulDk?'rgba(255,255,255,0.6)':'rgba(47,61,99,0.5)'}}>{posts[igActive].sub}</div>
+                  {posts[igActive].price && <div style={{marginTop:12, fontFamily:'Montserrat', fontSize:12, fontWeight:600, color:T.azulDk, background:T.white, padding:'6px 14px', borderRadius:20}}>{posts[igActive].price}</div>}
+                </>
+            }
+          </Card>
+          <div style={{fontFamily:'Montserrat', fontSize:11, color:'rgba(47,61,99,0.4)', marginTop:8, textAlign:'center'}}>↑ Hacé clic en la grilla para previsualizar</div>
+        </div>
+      </Row>
+
+      <Row label="Historias Destacadas">
+        <Card style={{flex:1, display:'flex', gap:20, flexWrap:'wrap', alignItems:'center'}}>
+          {highlights.map((h,i)=>(
+            <div key={h} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:8}}>
+              <div style={{width:64, height:64, borderRadius:'50%', background:highlightColors[i], border:`2.5px solid ${T.white}`, outline:`2.5px solid ${T.azulDk}`, display:'flex', alignItems:'center', justifyContent:'center'}}>
+                <span style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', fontSize:11, color: highlightColors[i]===T.azulDk?T.white:T.azulDk}}>Aa</span>
+              </div>
+              <span style={{fontFamily:'Montserrat', fontSize:10, color:T.azulDk, fontWeight:500}}>{h}</span>
+            </div>
+          ))}
+        </Card>
+      </Row>
+
+      <Row label="Menú de WhatsApp">
+        <Card style={{flex:1, maxWidth:380, background:T.azulDk, padding:0, overflow:'hidden'}}>
+          <div style={{background:T.verde, padding:'14px 20px', textAlign:'center'}}>
+            <div style={{fontFamily:"'Playfair Display',serif", fontSize:16, fontWeight:700, color:T.azulDk, letterSpacing:2}}>MENÚ WHATSAPP</div>
+            <div style={{display:'flex', justifyContent:'center', gap:4, marginTop:4}}>
+              {[...Array(5)].map((_,i)=><div key={i} style={{width:4, height:4, borderRadius:'50%', background:T.azulDk, opacity:0.4}}></div>)}
+            </div>
+          </div>
+          <div style={{padding:'16px 20px'}}>
+            {menuItems.map(m=>(
+              <div key={m.cat} style={{display:'flex', gap:14, padding:'12px 0', borderBottom:'1px solid rgba(255,255,255,0.08)'}}>
+                <div style={{fontSize:20, width:28, flexShrink:0, textAlign:'center'}}>{m.icon}</div>
+                <div>
+                  <div style={{fontFamily:'Montserrat', fontSize:11, fontWeight:700, letterSpacing:1.5, color:T.verde, marginBottom:2}}>{m.cat}</div>
+                  <div style={{fontFamily:'Montserrat', fontSize:12, color:'rgba(255,255,255,0.6)', lineHeight:1.4}}>{m.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{padding:'12px 20px', textAlign:'center'}}>
+            <div style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:'rgba(255,255,255,0.4)', fontSize:13}}>Gracias por elegirnos ♡</div>
+          </div>
+        </Card>
+        <Card style={{flex:1, minWidth:280}}>
+          <div style={{fontFamily:'Montserrat', fontSize:10, fontWeight:700, letterSpacing:2, textTransform:'uppercase', color:T.verde, marginBottom:16}}>PLANTILLA DE RESPUESTA</div>
+          <div style={{fontFamily:'Montserrat', fontSize:13, color:T.azulDk, lineHeight:1.8}}>
+            ¡Hola [nombre]! 🍰<br/>
+            Gracias por escribirnos a <strong>Delicias de Anita</strong>.<br/><br/>
+            Para ayudarte mejor, contanos:<br/>
+            · ¿Qué producto te interesa?<br/>
+            · ¿Para qué fecha lo necesitás?<br/>
+            · ¿Algún sabor o decoración especial?<br/><br/>
+            <span style={{fontFamily:"'Cormorant Garamond',serif", fontStyle:'italic', color:'rgba(47,61,99,0.6)', fontSize:15}}>¡Con gusto te preparamos algo especial! ♡</span>
+          </div>
+        </Card>
+      </Row>
+    </Section>
+  );
+}
+
+/* ─── APP ─────────────────────────────────────────────────── */
+const SECTIONS = {
+  marca: SecMarca, logo: SecLogo, colores: SecColores,
+  tipo: SecTipo, voz: SecVoz, comp: SecComp, social: SecSocial,
+};
+
+function App() {
+  const [active, setActive] = useState('marca');
+  const mainRef = useRef(null);
+  const Comp = SECTIONS[active];
+
+  const handleNav = (id) => {
+    setActive(id);
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  };
+
+  return (
+    <div style={{display:'flex', width:'100%', height:'100vh', overflow:'hidden'}}>
+      <Sidebar active={active} setActive={handleNav} />
+      <main ref={mainRef} style={{flex:1, overflowY:'auto', overflowX:'hidden', background:T.marfil}}>
+        <Comp />
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
