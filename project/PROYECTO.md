@@ -425,6 +425,13 @@ Identificación y asignación de fotos al catálogo:
 - Actualizado `src/lib/events.ts` para usar rutas directas como `/eventos/cumpleanos-glamour-01.jpeg`.
 - Eliminada la dependencia de `encodeURIComponent` para assets locales de eventos.
 - Motivo: evitar dobles encodeos, URLs frágiles y fallos de carga en `next/image`/Amplify.
+- Build limpio validado con `npm run build`: 12 rutas generadas, incluyendo `/eventos` y 6 detalles SSG.
+- Validación local con `next start`:
+  - `/eventos` → 200.
+  - `/eventos/cumpleanos-glamour-01.jpeg` → 200.
+  - URL optimizada de `next/image` para `cumpleanos-glamour-01.jpeg` → 200.
+- Commit desplegado: `66a7cee Normalize event image filenames`.
+- Push a `origin/main` para disparar deploy en AWS Amplify.
 
 ---
 
