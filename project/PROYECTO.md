@@ -1,7 +1,7 @@
 # Delicias de Anita - Documentación del Proyecto
 
 > Registro oficial del sitio web de la pastelería artesanal **Delicias de Anita**.
-> Última actualización: Abril 2026 · Sesión 7
+> Última actualización: Abril 2026 · Sesión 8
 
 ---
 
@@ -122,7 +122,7 @@ delicias-de-anita/
 ├── public/
 │   ├── logos/              <- Assets de marca (ver sección 9)
 │   ├── products/           <- Fotos de productos del catálogo
-│   └── eventos/            <- 29 fotos de eventos (WhatsApp Image 2026-04-26...)
+│   └── eventos/            <- 29 fotos de eventos con nombres semánticos
 ├── src/
 │   ├── app/
 │   │   ├── globals.css     <- Design tokens + Tailwind @theme
@@ -146,7 +146,7 @@ delicias-de-anita/
 │   │   └── Button.tsx
 │   └── lib/
 │       ├── products.ts     <- Catálogo de productos (mock)
-│       ├── events.ts       <- Datos de eventos + helper ev()
+│       ├── events.ts       <- Datos de eventos + helper img()
 │       └── tokens.ts       <- Design tokens en TS
 ├── project/
 │   ├── Design System.html  <- Design system fuente (referencia)
@@ -282,11 +282,11 @@ delicias-de-anita/
 ### Arquitectura de datos (`src/lib/events.ts`)
 
 - Tipo `Event`: `slug`, `title`, `description`, `category`, `coverImage`, `gallery: string[]`.
-- Helper interno `ev(time: string)` construye la URL pública sin pre-encodear:
+- Helper interno `img(name: string)` construye la URL pública desde nombres semánticos:
   ```ts
-  `/eventos/WhatsApp Image 2026-04-26 at ${time}.jpeg`
+  `/eventos/${name}.jpeg`
   ```
-  Next/browser se encargan del URL-encoding. No usar `encodeURIComponent` aquí porque `next/image` puede terminar enviando la ruta doble-encodeada al optimizador.
+- Las imágenes fueron renombradas para evitar espacios, paréntesis y problemas de encoding con `next/image`.
 - Función `getEvent(slug)` para lookups desde las páginas de detalle.
 
 ### Eventos registrados
@@ -304,17 +304,16 @@ delicias-de-anita/
 
 ### Mapeo de fotos por evento
 
-Todas las fotos están en `public/eventos/` con nombres originales de WhatsApp (`WhatsApp Image 2026-04-26 at HH.MM.SS (N).jpeg`).
+Todas las fotos están en `public/eventos/` con nombres web-safe por evento (`evento-slug-XX.jpeg`).
 
-| Archivos (timestamp) | Evento |
+| Archivos | Evento |
 |---|---|
-| `19.18.00` → `19.18.02 (3)` | cumpleanos-glamour |
-| `19.18.03 (18)` → `19.18.03 (22)` | cumpleanos-glamour |
-| `19.18.03` → `19.18.03 (5)` | cumpleanos-batman |
-| `19.18.03 (6)` → `19.18.03 (9)` | evento-mascarada |
-| `19.18.03 (10)` → `19.18.03 (11)` | primera-comunion |
-| `19.18.03 (12)` → `19.18.03 (13)` | cumpleanos-infantil |
-| `19.18.03 (14)` → `19.18.03 (17)` | dog-party |
+| `cumpleanos-glamour-01.jpeg` → `cumpleanos-glamour-11.jpeg` | cumpleanos-glamour |
+| `cumpleanos-batman-01.jpeg` → `cumpleanos-batman-06.jpeg` | cumpleanos-batman |
+| `evento-mascarada-01.jpeg` → `evento-mascarada-04.jpeg` | evento-mascarada |
+| `primera-comunion-01.jpeg` → `primera-comunion-02.jpeg` | primera-comunion |
+| `cumpleanos-infantil-01.jpeg` → `cumpleanos-infantil-02.jpeg` | cumpleanos-infantil |
+| `dog-party-01.jpeg` → `dog-party-04.jpeg` | dog-party |
 
 ---
 
@@ -407,7 +406,7 @@ Identificación y asignación de fotos al catálogo:
 **Sección de Eventos (nueva):**
 
 - Categorización de 29 fotos de WhatsApp en 6 grupos temáticos.
-- Creación de `src/lib/events.ts` con tipo `Event`, array `EVENTS` y helper `ev()` para URL-encoding de nombres con espacios/paréntesis.
+- Creación de `src/lib/events.ts` con tipo `Event`, array `EVENTS` y helper `img()` para rutas limpias.
 - Creación de `src/components/EventCard.tsx`: tarjeta overlay con imagen, degradado azul, categoría en verde (contraste ~8:1 sobre fondo oscuro), "Ver más →" con hover.
 - Creación de `src/app/eventos/page.tsx`: hero con foto real, grilla 3 columnas, CTA WhatsApp al pie.
 - Creación de `src/app/eventos/[slug]/page.tsx`: SSG con `generateStaticParams`, hero, descripción + CTA inline, galería de fotos, botón volver.
@@ -419,6 +418,13 @@ Identificación y asignación de fotos al catálogo:
 - `Tag.tsx`: estado inactivo unificado a `text-azul-dk border-azul-dk/40` para todos los tones. Antes el tone `verde` inactivo usaba `text-verde` sobre fondo marfil → ~1.7:1 (fail WCAG AA). Hover aclara el borde progresivamente.
 - `catalogo/page.tsx`: lede descriptivo pasó de `font-bold text-[17-18px] text-white/90` a `text-[16px] text-white/85` sin `font-bold`. Peso regular, consistente con los leades de otras secciones.
 - `CatalogGrid.tsx`: contador "Mostrando X delicias" pasó de `text-[14px] text-azul/60` a `text-[18px] text-azul-dk/75 font-accent italic`. Más protagonismo y contraste correcto.
+
+### Sesión 8 - Abril 2026 · Normalización de nombres de imágenes
+
+- Renombradas las 29 imágenes de `public/eventos/` desde nombres originales de WhatsApp a nombres semánticos web-safe.
+- Actualizado `src/lib/events.ts` para usar rutas directas como `/eventos/cumpleanos-glamour-01.jpeg`.
+- Eliminada la dependencia de `encodeURIComponent` para assets locales de eventos.
+- Motivo: evitar dobles encodeos, URLs frágiles y fallos de carga en `next/image`/Amplify.
 
 ---
 

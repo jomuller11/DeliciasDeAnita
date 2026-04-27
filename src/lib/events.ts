@@ -7,8 +7,8 @@ export type Event = {
   gallery: string[];
 };
 
-function ev(time: string): string {
-  return `/eventos/WhatsApp Image 2026-04-26 at ${time}.jpeg`;
+function img(name: string): string {
+  return `/eventos/${name}.jpeg`;
 }
 
 export const EVENTS: Event[] = [
@@ -18,19 +18,19 @@ export const EVENTS: Event[] = [
     description:
       "Una celebración llena de elegancia y brillo. Tortas, cupcakes y mesas dulces coordinados en tonos rosas y dorados, pensados para hacer de cada cumpleaños un momento de ensueño. Personalizamos cada detalle para que sea único e irrepetible.",
     category: "Cumpleaños",
-    coverImage: ev("19.18.00"),
+    coverImage: img("cumpleanos-glamour-01"),
     gallery: [
-      ev("19.18.00"),
-      ev("19.18.01"),
-      ev("19.18.02"),
-      ev("19.18.02 (1)"),
-      ev("19.18.02 (2)"),
-      ev("19.18.02 (3)"),
-      ev("19.18.03 (18)"),
-      ev("19.18.03 (19)"),
-      ev("19.18.03 (20)"),
-      ev("19.18.03 (21)"),
-      ev("19.18.03 (22)"),
+      img("cumpleanos-glamour-01"),
+      img("cumpleanos-glamour-02"),
+      img("cumpleanos-glamour-03"),
+      img("cumpleanos-glamour-04"),
+      img("cumpleanos-glamour-05"),
+      img("cumpleanos-glamour-06"),
+      img("cumpleanos-glamour-07"),
+      img("cumpleanos-glamour-08"),
+      img("cumpleanos-glamour-09"),
+      img("cumpleanos-glamour-10"),
+      img("cumpleanos-glamour-11"),
     ],
   },
   {
@@ -39,14 +39,14 @@ export const EVENTS: Event[] = [
     description:
       "¡Al rescate del mejor cumpleaños! Tortas y dulces con temática Batman para los fans del superhéroe. Trabajamos cada figura y decoración con masa fondant para lograr un resultado digno de Gotham.",
     category: "Cumpleaños",
-    coverImage: ev("19.18.03"),
+    coverImage: img("cumpleanos-batman-01"),
     gallery: [
-      ev("19.18.03"),
-      ev("19.18.03 (1)"),
-      ev("19.18.03 (2)"),
-      ev("19.18.03 (3)"),
-      ev("19.18.03 (4)"),
-      ev("19.18.03 (5)"),
+      img("cumpleanos-batman-01"),
+      img("cumpleanos-batman-02"),
+      img("cumpleanos-batman-03"),
+      img("cumpleanos-batman-04"),
+      img("cumpleanos-batman-05"),
+      img("cumpleanos-batman-06"),
     ],
   },
   {
@@ -55,12 +55,12 @@ export const EVENTS: Event[] = [
     description:
       "Elegancia en negro y dorado para eventos temáticos y veladas especiales. Tortas de varios pisos con detalles de antifaces, flores y dorado, ideales para XV años, aniversarios o cualquier celebración sofisticada.",
     category: "Eventos Especiales",
-    coverImage: ev("19.18.03 (6)"),
+    coverImage: img("evento-mascarada-01"),
     gallery: [
-      ev("19.18.03 (6)"),
-      ev("19.18.03 (7)"),
-      ev("19.18.03 (8)"),
-      ev("19.18.03 (9)"),
+      img("evento-mascarada-01"),
+      img("evento-mascarada-02"),
+      img("evento-mascarada-03"),
+      img("evento-mascarada-04"),
     ],
   },
   {
@@ -69,8 +69,8 @@ export const EVENTS: Event[] = [
     description:
       "Un día sagrado merece una mesa dulce a la altura. Tortas y bocaditos en tonos blancos y dorados que acompañan uno de los momentos más importantes en la vida de los más chicos.",
     category: "Celebraciones",
-    coverImage: ev("19.18.03 (10)"),
-    gallery: [ev("19.18.03 (10)"), ev("19.18.03 (11)")],
+    coverImage: img("primera-comunion-01"),
+    gallery: [img("primera-comunion-01"), img("primera-comunion-02")],
   },
   {
     slug: "cumpleanos-infantil",
@@ -78,8 +78,8 @@ export const EVENTS: Event[] = [
     description:
       "Colores vibrantes, figuritas personalizadas y mucha fantasía. Creamos tortas y dulces que hacen brillar los ojos de los más pequeños, con personajes y temáticas a medida.",
     category: "Cumpleaños",
-    coverImage: ev("19.18.03 (12)"),
-    gallery: [ev("19.18.03 (12)"), ev("19.18.03 (13)")],
+    coverImage: img("cumpleanos-infantil-01"),
+    gallery: [img("cumpleanos-infantil-01"), img("cumpleanos-infantil-02")],
   },
   {
     slug: "dog-party",
@@ -87,12 +87,12 @@ export const EVENTS: Event[] = [
     description:
       "¡La fiesta también es para los peludos! Mesas dulces con temática de mascotas para celebraciones originales y llenas de ternura. Desde huesos de azúcar hasta figuritas de perros en fondant.",
     category: "Eventos Especiales",
-    coverImage: ev("19.18.03 (14)"),
+    coverImage: img("dog-party-01"),
     gallery: [
-      ev("19.18.03 (14)"),
-      ev("19.18.03 (15)"),
-      ev("19.18.03 (16)"),
-      ev("19.18.03 (17)"),
+      img("dog-party-01"),
+      img("dog-party-02"),
+      img("dog-party-03"),
+      img("dog-party-04"),
     ],
   },
 ];
