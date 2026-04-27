@@ -27,7 +27,7 @@ export default function CatalogoPage() {
               <h1 className="font-display text-[42px] lg:text-[52px] font-semibold leading-[1.05] text-white">
                 Nuestras Delicias
               </h1>
-              <p className="font-body text-[17px] lg:text-[18px] font-bold text-white/90 mt-4 leading-relaxed max-w-[620px]">
+              <p className="font-body text-[16px] text-white/85 mt-5 leading-relaxed max-w-[560px]">
                 Cada pieza es única, elaborada con dedicación y los mejores
                 ingredientes. Pedís lo que querés por WhatsApp y te lo llevamos.
               </p>

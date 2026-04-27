@@ -1,7 +1,7 @@
 # Delicias de Anita - Documentación del Proyecto
 
 > Registro oficial del sitio web de la pastelería artesanal **Delicias de Anita**.
-> Última actualización: Abril 2026
+> Última actualización: Abril 2026 · Sesión 7
 
 ---
 
@@ -14,10 +14,11 @@
 5. [Componentes](#5-componentes)
 6. [Páginas](#6-páginas)
 7. [Catálogo de productos](#7-catálogo-de-productos)
-8. [Assets de marca](#8-assets-de-marca)
-9. [Historial de trabajo](#9-historial-de-trabajo)
-10. [Despliegue](#10-despliegue)
-11. [Pendientes](#11-pendientes)
+8. [Sección de Eventos](#8-sección-de-eventos)
+9. [Assets de marca](#9-assets-de-marca)
+10. [Historial de trabajo](#10-historial-de-trabajo)
+11. [Despliegue](#11-despliegue)
+12. [Pendientes](#12-pendientes)
 
 ---
 
@@ -119,26 +120,33 @@ Siempre tintadas en azul, nunca grises neutras:
 ```text
 delicias-de-anita/
 ├── public/
-│   ├── logos/              <- Assets de marca (ver sección 8)
-│   └── products/           <- Fotos de productos
+│   ├── logos/              <- Assets de marca (ver sección 9)
+│   ├── products/           <- Fotos de productos del catálogo
+│   └── eventos/            <- 29 fotos de eventos (WhatsApp Image 2026-04-26...)
 ├── src/
 │   ├── app/
 │   │   ├── globals.css     <- Design tokens + Tailwind @theme
 │   │   ├── layout.tsx      <- Root layout + fuentes + metadata
 │   │   ├── page.tsx        <- Home (hero con fondo + pilares)
-│   │   └── catalogo/
-│   │       └── page.tsx    <- Página catálogo
+│   │   ├── catalogo/
+│   │   │   └── page.tsx    <- Página catálogo
+│   │   └── eventos/
+│   │       ├── page.tsx    <- Listado de eventos (galería)
+│   │       └── [slug]/
+│   │           └── page.tsx <- Detalle de evento + galería completa
 │   ├── components/
 │   │   ├── Header.tsx
 │   │   ├── Footer.tsx
 │   │   ├── ProductCard.tsx
 │   │   ├── CatalogGrid.tsx
+│   │   ├── EventCard.tsx   <- Tarjeta de evento con overlay
 │   │   ├── SectionTitle.tsx
 │   │   ├── Badge.tsx
 │   │   ├── Tag.tsx
 │   │   └── Button.tsx
 │   └── lib/
 │       ├── products.ts     <- Catálogo de productos (mock)
+│       ├── events.ts       <- Datos de eventos + helper ev()
 │       └── tokens.ts       <- Design tokens en TS
 ├── project/
 │   ├── Design System.html  <- Design system fuente (referencia)
@@ -179,8 +187,17 @@ delicias-de-anita/
 
 ### Tag
 
-- Chip filtrable, 2 tonos: `verde` (borde verde, texto `azul-dk`) / `azul` (borde+texto `azul-dk`).
-- Estado activo: fondo sólido.
+- Chip filtrable para filtros de categoría.
+- Estado **inactivo** (cualquier tono): `text-azul-dk border-azul-dk/40`; al hover oscurece el borde. Unificado para evitar el fallo de contraste de `text-verde` sobre `marfil` (~1.7:1).
+- Estado **activo** conserva el tono: `verde` → `bg-verde text-azul-dk`; `azul` → `bg-azul-dk text-white`.
+
+### EventCard
+
+- Tarjeta de galería de eventos con imagen a `aspect-[4/3]`.
+- Overlay degradado `from-azul-dk/90` en la parte inferior para texto legible.
+- Eyebrow de categoría en `!text-verde` (sobre fondo oscuro: contraste ~8:1 ✓).
+- Título en `text-white`, "Ver más →" en `text-white/75` con hover a verde.
+- Toda la tarjeta es un `<Link>` con `group-hover:scale-105` en la imagen.
 
 ### SectionTitle
 
@@ -212,12 +229,30 @@ delicias-de-anita/
 - **Hero band:** foto de producto como fondo (`121212.jpeg`) con overlay `bg-azul-dk/70`.
 - Se removió el sello decorativo lateral para evitar duplicación de marca.
 - Eyebrow "Catálogo · Hecho con amor" en bold.
-- Lede descriptivo en bold para reforzar legibilidad.
+- Lede: `font-body text-[16px] text-white/85 leading-relaxed` (sin `font-bold`; peso regular igual que eventos).
 - **Grid:** `CatalogGrid` con filtros por categoría.
+  - Contador "Mostrando X delicias": `font-accent italic text-[18px] text-azul-dk/75`.
 - **CTA band:** `bg-azul-dk`, pedido personalizado por WhatsApp.
   - "¿No encontrás lo tuyo?" en 25px.
   - "Hacemos pedidos personalizados para tu celebración." en `text-crema` (`#DCCFC8`).
   - "Contanos qué imaginás y lo hacemos realidad ♡" en 20px.
+
+### `/eventos` - Listado de Eventos
+
+- **Hero:** foto de portada del primer evento como fondo con overlay `bg-azul-dk/75`.
+- Eyebrow "Galería de Eventos · Buenos Aires" en `!text-verde`.
+- H1 con línea italic en `text-verde`.
+- **Grid:** `EventCard` × 6 en 3 columnas (responsive: 1→2→3).
+- **CTA band:** `bg-azul-dk` al pie, WhatsApp.
+
+### `/eventos/[slug]` - Detalle de Evento
+
+- Generado estáticamente con `generateStaticParams` → SSG puro, sin runtime.
+- **Hero:** foto de portada del evento con overlay `bg-azul-dk/70`; título + categoría al pie del hero.
+- **Descripción:** texto del evento + botón "Consultar por este evento" (WhatsApp) en la misma fila (flex responsive).
+- **Galería:** grid `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`, `aspect-[4/3]` por foto, hover `scale-105`.
+- Link "← Volver a todos los eventos" al pie.
+- `generateMetadata` dinámico para SEO por evento.
 
 ---
 
@@ -242,7 +277,48 @@ delicias-de-anita/
 
 ---
 
-## 8. Assets de marca
+## 8. Sección de Eventos
+
+### Arquitectura de datos (`src/lib/events.ts`)
+
+- Tipo `Event`: `slug`, `title`, `description`, `category`, `coverImage`, `gallery: string[]`.
+- Helper interno `ev(time: string)` construye la URL codificada:
+  ```ts
+  `/eventos/${encodeURIComponent(`WhatsApp Image 2026-04-26 at ${time}`)}.jpeg`
+  ```
+  Esto maneja los espacios y paréntesis de los nombres de archivo de WhatsApp sin renombrar archivos.
+- Función `getEvent(slug)` para lookups desde las páginas de detalle.
+
+### Eventos registrados
+
+| Slug | Título | Categoría | Fotos |
+|---|---|---|---|
+| `cumpleanos-glamour` | Cumpleaños Glamour | Cumpleaños | 11 |
+| `cumpleanos-batman` | Cumpleaños Temático Batman | Cumpleaños | 6 |
+| `evento-mascarada` | Noche de Mascarada | Eventos Especiales | 4 |
+| `primera-comunion` | Primera Comunión | Celebraciones | 2 |
+| `cumpleanos-infantil` | Cumpleaños Infantil | Cumpleaños | 2 |
+| `dog-party` | Dog Party · Temático Mascotas | Eventos Especiales | 4 |
+
+**Total:** 29 fotos distribuidas en 6 eventos.
+
+### Mapeo de fotos por evento
+
+Todas las fotos están en `public/eventos/` con nombres originales de WhatsApp (`WhatsApp Image 2026-04-26 at HH.MM.SS (N).jpeg`).
+
+| Archivos (timestamp) | Evento |
+|---|---|
+| `19.18.00` → `19.18.02 (3)` | cumpleanos-glamour |
+| `19.18.03 (18)` → `19.18.03 (22)` | cumpleanos-glamour |
+| `19.18.03` → `19.18.03 (5)` | cumpleanos-batman |
+| `19.18.03 (6)` → `19.18.03 (9)` | evento-mascarada |
+| `19.18.03 (10)` → `19.18.03 (11)` | primera-comunion |
+| `19.18.03 (12)` → `19.18.03 (13)` | cumpleanos-infantil |
+| `19.18.03 (14)` → `19.18.03 (17)` | dog-party |
+
+---
+
+## 9. Assets de marca
 
 Ubicación: `public/logos/`
 
@@ -268,7 +344,7 @@ Ubicación: `public/logos/`
 
 ---
 
-## 9. Historial de trabajo
+## 10. Historial de trabajo
 
 ### Sesión 1 - Abril 2026 · Setup inicial
 
@@ -326,9 +402,27 @@ Identificación y asignación de fotos al catálogo:
 - Commit desplegado: `946b465 Update branding and hero visuals`.
 - Push a `origin/main` para disparar deploy en AWS Amplify.
 
+### Sesión 7 - Abril 2026 · Sección Eventos + fixes Catálogo
+
+**Sección de Eventos (nueva):**
+
+- Categorización de 29 fotos de WhatsApp en 6 grupos temáticos.
+- Creación de `src/lib/events.ts` con tipo `Event`, array `EVENTS` y helper `ev()` para URL-encoding de nombres con espacios/paréntesis.
+- Creación de `src/components/EventCard.tsx`: tarjeta overlay con imagen, degradado azul, categoría en verde (contraste ~8:1 sobre fondo oscuro), "Ver más →" con hover.
+- Creación de `src/app/eventos/page.tsx`: hero con foto real, grilla 3 columnas, CTA WhatsApp al pie.
+- Creación de `src/app/eventos/[slug]/page.tsx`: SSG con `generateStaticParams`, hero, descripción + CTA inline, galería de fotos, botón volver.
+- Links "Eventos" en `Header.tsx` y `Footer.tsx` actualizados de `#` a `/eventos`.
+- Build validado: 12 rutas generadas, 6 páginas `/eventos/[slug]` como SSG.
+
+**Fixes en Catálogo:**
+
+- `Tag.tsx`: estado inactivo unificado a `text-azul-dk border-azul-dk/40` para todos los tones. Antes el tone `verde` inactivo usaba `text-verde` sobre fondo marfil → ~1.7:1 (fail WCAG AA). Hover aclara el borde progresivamente.
+- `catalogo/page.tsx`: lede descriptivo pasó de `font-bold text-[17-18px] text-white/90` a `text-[16px] text-white/85` sin `font-bold`. Peso regular, consistente con los leades de otras secciones.
+- `CatalogGrid.tsx`: contador "Mostrando X delicias" pasó de `text-[14px] text-azul/60` a `text-[18px] text-azul-dk/75 font-accent italic`. Más protagonismo y contraste correcto.
+
 ---
 
-## 10. Despliegue
+## 11. Despliegue
 
 ### Arquitectura
 
@@ -378,7 +472,7 @@ Regla práctica:
 
 ---
 
-## 11. Pendientes
+## 12. Pendientes
 
 ### Alta prioridad
 
@@ -394,10 +488,16 @@ Regla práctica:
 - [ ] Decidir destino de `cookies06.jpeg`, `cookies07.jpeg`, `cookies08.jpeg` (¿nuevos productos o variantes?).
 - [ ] Reemplazar precios mock con precios reales.
 
+### Eventos
+
+- [x] Página `/eventos` (listado con galería de cards).
+- [x] Página `/eventos/[slug]` (detalle con galería completa).
+- [ ] Agregar más eventos a medida que se fotografíen (modificar solo `src/lib/events.ts`).
+- [ ] Considerar lightbox para ver fotos en tamaño completo dentro de la galería de detalle.
+
 ### Páginas nuevas
 
 - [ ] `/sobre-anita` - Historia y equipo.
-- [ ] `/eventos` - Servicios para eventos y mesas dulces.
 
 ### Funcionalidad
 
@@ -406,4 +506,4 @@ Regla práctica:
 
 ---
 
-*Documento actualizado con Codex · Delicias de Anita · 2026*
+*Documento actualizado con Claude Code · Delicias de Anita · Abril 2026*

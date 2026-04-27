@@ -5,14 +5,12 @@ import { Tag } from "@/components/Tag";
 import { ProductCard } from "@/components/ProductCard";
 import { CATEGORIES, PRODUCTS, type Category } from "@/lib/products";
 
-/* ─── CatalogGrid — filterable product grid ──────────────── */
 export function CatalogGrid() {
   const [active, setActive] = useState<Category>("Todos");
 
   const filtered = useMemo(() => {
     if (active === "Todos") return PRODUCTS;
     return PRODUCTS.filter((p) => {
-      // "Sin TACC" is a cross-cutting badge, not a category
       if (active === "Sin TACC") {
         return p.badge?.variant === "sin-tacc";
       }
@@ -25,7 +23,6 @@ export function CatalogGrid() {
 
   return (
     <>
-      {/* Filters */}
       <div
         role="tablist"
         aria-label="Filtros de categoría"
@@ -45,16 +42,14 @@ export function CatalogGrid() {
         ))}
       </div>
 
-      {/* Result count */}
-      <p className="font-accent italic text-[14px] text-azul/60 mb-6">
+      <p className="font-accent italic text-[18px] text-azul-dk/75 mb-6">
         {filtered.length === 0
-          ? "Sin productos en esta categoría — pronto sumaremos novedades ♡"
+          ? "Sin productos en esta categoría - pronto sumaremos novedades ♡"
           : `Mostrando ${filtered.length} ${
               filtered.length === 1 ? "delicia" : "delicias"
             }`}
       </p>
 
-      {/* Grid */}
       {filtered.length > 0 && (
         <div
           className={[

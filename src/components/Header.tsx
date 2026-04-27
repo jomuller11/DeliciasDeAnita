@@ -34,7 +34,7 @@ export function Header() {
           <Link href="/catalogo" className="hover:text-verde transition-colors">
             Catálogo
           </Link>
-          <Link href="#" className="hover:text-verde transition-colors">
+          <Link href="/eventos" className="hover:text-verde transition-colors">
             Eventos
           </Link>
           <Link href="#" className="hover:text-verde transition-colors">

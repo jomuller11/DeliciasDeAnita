@@ -20,9 +20,7 @@ export function Tag({
     ? isVerde
       ? "bg-verde text-azul-dk border-verde"
       : "bg-azul-dk text-white border-azul-dk"
-    : isVerde
-      ? "bg-transparent text-verde border-verde hover:bg-verde/10"
-      : "bg-transparent text-azul-dk border-azul-dk hover:bg-azul-dk/5";
+    : "bg-transparent text-azul-dk border-azul-dk/40 hover:border-azul-dk hover:bg-azul-dk/5";
 
   return (
     <button
