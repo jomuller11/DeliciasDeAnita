@@ -282,11 +282,11 @@ delicias-de-anita/
 ### Arquitectura de datos (`src/lib/events.ts`)
 
 - Tipo `Event`: `slug`, `title`, `description`, `category`, `coverImage`, `gallery: string[]`.
-- Helper interno `ev(time: string)` construye la URL codificada:
+- Helper interno `ev(time: string)` construye la URL pública sin pre-encodear:
   ```ts
-  `/eventos/${encodeURIComponent(`WhatsApp Image 2026-04-26 at ${time}`)}.jpeg`
+  `/eventos/WhatsApp Image 2026-04-26 at ${time}.jpeg`
   ```
-  Esto maneja los espacios y paréntesis de los nombres de archivo de WhatsApp sin renombrar archivos.
+  Next/browser se encargan del URL-encoding. No usar `encodeURIComponent` aquí porque `next/image` puede terminar enviando la ruta doble-encodeada al optimizador.
 - Función `getEvent(slug)` para lookups desde las páginas de detalle.
 
 ### Eventos registrados

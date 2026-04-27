@@ -8,7 +8,7 @@ export type Event = {
 };
 
 function ev(time: string): string {
-  return `/eventos/${encodeURIComponent(`WhatsApp Image 2026-04-26 at ${time}`)}.jpeg`;
+  return `/eventos/WhatsApp Image 2026-04-26 at ${time}.jpeg`;
 }
 
 export const EVENTS: Event[] = [
