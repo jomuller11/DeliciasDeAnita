@@ -53,7 +53,7 @@ export async function CatalogGrid() {
     console.error("Error cargando productos:", error.message);
   }
 
-  const products = (data ?? []).map((p, i) => toCard(p as DbProduct, i));
+  const products = ((data ?? []) as DbProduct[]).map((p, i) => toCard(p, i));
 
   return <CatalogGridClient products={products} />;
 }
